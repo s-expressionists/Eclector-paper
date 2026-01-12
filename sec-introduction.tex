@@ -1,2 +1,42 @@
 \section{Introduction}
 
+The \cl{} \texttt{read} function, usually referred to as the \cl{}
+\emph{reader} is an obviously essential part of any \cl{}
+implementation.  In addition, when a \cl{} is built (or
+\emph{bootstrapped}), the reader is needed early since code has to be
+read before it can be compiled or evaluated.  But reading native code
+for compilation or evaluation is not the only use for a reader.  Some
+situations where a reader might be useful are:
+
+\begin{itemize}
+\item Cross compilation.  When a \cl{} system (the \emph{target} is
+  built from source, a common technique is to compile the source on an
+  existing \cl{} system (the \emph{host}).  The host system can be
+  (perhaps a different version of) the same implementation as the
+  target, or it can be a different implementation altogether.  The
+  reader is then executed by the host \cl{} system.  In either case,
+  it is undesirable for the reader to intern symbols in host packages.
+  The \sbcl{} implementation of \cl{} solves this problem by having
+  the source code defined in a package that cannot clash with the host
+  packages.  The main disadvantage of this approach is that all source
+  code that is part of the target system must be specific to that
+  system.  External libraries are excluded if such libraries involve
+  packages that may clash with some host packages.
+\item Parsing an editor buffer.  Existing editors for \cl{} code do
+  not faithfully analyze the contents of their editor buffers.  Many
+  assumptions are made that may not hold true.  For example, reader
+  macros are not taken into account, and the analysis does not permit
+  the editor to determine the role of symbols in the buffer.  The only
+  technique that can faithfully analyze a buffer of \cl{} code is the
+  \cl{} reader.  But then, again, it is undesirable for the reader to
+  intern symbols in any package at all, and the analysis must not fail
+  for errors such as incorrect package names used as package prefixes,
+  incomplete code, or syntax errors in tokens.
+\end{itemize}
+
+\noindent
+In this paper, we describe \eclector{}; a \cl{} reader that is
+independent of any particular \cl{} implementation.  Furthermore,
+\eclector{} is highly configurable, so that it may be configured not
+to intern symbols in any host package, and so that syntax errors can
+be avoided or recovered from.
