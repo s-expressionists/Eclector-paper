@@ -21,3 +21,26 @@ malformed symbol with three package markers, again an error of type
 \texttt{simple-error} is signaled, and the message is cryptic.  For
 example, an attempt to read the malformed symbol \texttt{cl:::car},
 the error message is ``There is no package with the name CL:::C''.
+
+\subsection{Steel-Bank Common Lisp (SBDL)}
+
+The SBCL reader is written in \cl{}, without the use of the features
+of the \cl{} Object System (\clos{}). 
+
+When an attempt is made to read an incomplete expression, so that the
+\texttt{end-of-file} condition is invoked, no restart other than
+\texttt{retry} \texttt{abort} is available.
+
+When an attempt is made to read a symbol with an explicit package
+marker where the corresponding package does not exist, an error of
+type \texttt{simple-reader-package-error} is signaled.  Several
+restarts are then available:
+
+\begin{itemize}
+\item using the current package instead,
+\item retry finding the package (presumably after it has been created
+  by the user),
+\item specify a different package,
+\item return an uninterned symbol, and
+\item specify a symbol to return.
+\end{itemize}
