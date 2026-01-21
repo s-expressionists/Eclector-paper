@@ -74,3 +74,21 @@ additional restarts are available:
 \item making the supplied package name a nickname for the package
   \texttt{common-lisp-user}.
 \end{itemize}
+
+\subsection{Clasp}
+
+Clasp is a \cl{} implementation that was specifically designed to
+cooperate (FIXME, that's not the right term) with \cplusplus{} code,
+in order to take advantage of existing libraries written in
+\cplusplus{}.  Clasp was originally written as a conversion of the
+\clanguage{} code of ECL to \cplusplus{} and with almost all the \cl{}
+code from ECL.  As such, its reader is a \cplusplus{} conversion of
+the reader from ECL.  However, in later bootstrapping stages, Clasp
+uses Eclector, the subject of this paper, in order to make Eclector
+the default reader.
+
+There are plans to modify the bootstrapping procedure of Clasp so that
+the initial \cplusplus{} reader is no longer needed.  For all these
+reasons, we do not review the \cplusplus{} reader of Clasp, and
+Eclector is fully described in \refSec{sec-eclector}.
+
