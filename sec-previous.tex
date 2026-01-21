@@ -28,7 +28,7 @@ because it might difficult to do so for a function written in
 functionality analogous to \texttt{restart-case} for \clanguage{}
 code.
 
-\subsection{Steel-Bank Common Lisp (SBDL)}
+\subsection{Steel-Bank Common Lisp (SBCL)}
 
 The SBCL reader is written in \cl{}, without the use of the specific
 features of the \cl{} Object System (\clos{}) such as generic
@@ -56,3 +56,21 @@ When an attempt is made to read an incorrect token in the form of a
 malformed symbol with three package markers, an error of type
 \texttt{simple-reader-error} is signaled, and no restart other than
 \texttt{retry} \texttt{abort} is available.
+
+\subsection{Clozure Common Lisp (CCL)}
+
+When an attempt is made to read an incomplete expression, so that the
+\texttt{end-of-file} condition is signaled, only restarts that return
+to previous break levels are available.
+
+When an attempt is made to read a symbol with an explicit package
+marker where the corresponding package does not exist, several
+additional restarts are available:
+
+\begin{itemize}
+\item supplying a different name for the package
+\item retry finding the package (presumably after it has been created
+  by the user),
+\item making the supplied package name a nickname for the package
+  \texttt{common-lisp-user}.
+\end{itemize}
