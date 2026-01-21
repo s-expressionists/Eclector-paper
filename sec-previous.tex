@@ -22,6 +22,12 @@ malformed symbol with three package markers, again an error of type
 example, an attempt to read the malformed symbol \texttt{cl:::car},
 the error message is ``There is no package with the name CL:::C''.
 
+One might think that the reason ECL proposes so few restarts is
+because it might difficult to do so for a function written in
+\clanguage{} but that is not the case; ECL has full support for
+functionality analogous to \texttt{restart-case} for \clanguage{}
+code.
+
 \subsection{Steel-Bank Common Lisp (SBDL)}
 
 The SBCL reader is written in \cl{}, without the use of the specific
