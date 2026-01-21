@@ -24,8 +24,9 @@ the error message is ``There is no package with the name CL:::C''.
 
 \subsection{Steel-Bank Common Lisp (SBDL)}
 
-The SBCL reader is written in \cl{}, without the use of the features
-of the \cl{} Object System (\clos{}). 
+The SBCL reader is written in \cl{}, without the use of the specific
+features of the \cl{} Object System (\clos{}) such as generic
+functions and standard classes.
 
 When an attempt is made to read an incomplete expression, so that the
 \texttt{end-of-file} condition is signaled, no restart other than
