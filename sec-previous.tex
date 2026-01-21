@@ -1,1 +1,23 @@
 \section{Previous work}
+
+\subsection{Embeddable Common Lisp (ECL)}
+
+ECL is implemented as a core written in \clanguage{}.  It is built by
+first compiling this core and then adding code written in \cl{} by
+loading it into the system resulting from the compilation of the core.
+For that reason, the reader must be written largely in \clanguage{}. 
+
+When an attempt is made to read an incomplete expression, so that the
+\texttt{end-of-file} condition is invoked, no restart other than
+\texttt{restart-toplevel} is available.
+
+Similarly when an attempt is made to read a symbol with an explicit
+package marker where the corresponding package does not exist, an
+error of type \texttt{simple-error} is signaled, and again, the only
+restart available is \texttt{restart-toplevel}.
+
+When an attempt is made to read an incorrect token in the form of a
+malformed symbol with three package markers, again an error of type
+\texttt{simple-error} is signaled, and the message is cryptic.  For
+example, an attempt to read the malformed symbol \texttt{cl:::car},
+the error message is ``There is no package with the name CL:::C''.
