@@ -8,7 +8,7 @@ loading it into the system resulting from the compilation of the core.
 For that reason, the reader must be written largely in \clanguage{}. 
 
 When an attempt is made to read an incomplete expression, so that the
-\texttt{end-of-file} condition is invoked, no restart other than
+\texttt{end-of-file} condition is signaled, no restart other than
 \texttt{restart-toplevel} is available.
 
 Similarly when an attempt is made to read a symbol with an explicit
@@ -28,7 +28,7 @@ The SBCL reader is written in \cl{}, without the use of the features
 of the \cl{} Object System (\clos{}). 
 
 When an attempt is made to read an incomplete expression, so that the
-\texttt{end-of-file} condition is invoked, no restart other than
+\texttt{end-of-file} condition is signaled, no restart other than
 \texttt{retry} \texttt{abort} is available.
 
 When an attempt is made to read a symbol with an explicit package
@@ -44,3 +44,8 @@ restarts are then available:
 \item return an uninterned symbol, and
 \item specify a symbol to return.
 \end{itemize}
+
+When an attempt is made to read an incorrect token in the form of a
+malformed symbol with three package markers, an error of type
+\texttt{simple-reader-error} is signaled, and no restart other than
+\texttt{retry} \texttt{abort} is available.
