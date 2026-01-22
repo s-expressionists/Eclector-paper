@@ -75,6 +75,11 @@ additional restarts are available:
   \texttt{common-lisp-user}.
 \end{itemize}
 
+When an attempt is made to read an incorrect token in the form of a
+malformed symbol with three package markers, no error is signaled at
+all, and instead the third package marker is treated as escaped, so
+that it is part of the symbol.
+
 \subsection{Clasp}
 
 Clasp is a \cl{} implementation that was specifically designed to
@@ -91,4 +96,3 @@ There are plans to modify the bootstrapping procedure of Clasp so that
 the initial \cplusplus{} reader is no longer needed.  For all these
 reasons, we do not review the \cplusplus{} reader of Clasp, and
 Eclector is fully described in \refSec{sec-eclector}.
-
