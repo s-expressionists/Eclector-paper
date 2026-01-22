@@ -96,3 +96,29 @@ There are plans to modify the bootstrapping procedure of Clasp so that
 the initial \cplusplus{} reader is no longer needed.  For all these
 reasons, we do not review the \cplusplus{} reader of Clasp, and
 Eclector is fully described in \refSec{sec-eclector}.
+
+\subsection{LispWorks}
+
+LispWorks is a commercial \cl{} implementation, so we obviously do not
+have access to its source code.  For that reason, we cannot determine
+how the reader is written.  We can, however, investigate what restarts
+are available in various situations.
+
+When an attempt is made to read an incomplete expression, so that the
+\texttt{end-of-file} condition is signaled, only the \texttt{abort}
+restart is available. 
+
+When an attempt is made to read a symbol with an explicit package
+marker where the corresponding package does not exist, several
+additional restarts are available:
+
+\begin{itemize}
+\item retry finding the package (presumably after it has been created
+  by the user),
+\item use another package,
+\item create the package, and
+\end{itemize}
+
+When an attempt is made to read an incorrect token in the form of a
+malformed symbol with three package markers, no restart other than
+\texttt{abort} is available.
