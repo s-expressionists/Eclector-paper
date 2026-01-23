@@ -5,7 +5,7 @@
 ECL is implemented as a core written in \clanguage{}.  It is built by
 first compiling this core and then adding code written in \cl{} by
 loading it into the system resulting from the compilation of the core.
-For that reason, the reader must be written largely in \clanguage{}. 
+For that reason, the reader must be written largely in \clanguage{}.
 
 When an attempt is made to read an incomplete expression, so that the
 \texttt{end-of-file} condition is signaled, no restart other than
@@ -106,7 +106,7 @@ are available in various situations.
 
 When an attempt is made to read an incomplete expression, so that the
 \texttt{end-of-file} condition is signaled, only the \texttt{abort}
-restart is available. 
+restart is available.
 
 When an attempt is made to read a symbol with an explicit package
 marker where the corresponding package does not exist, several
@@ -126,3 +126,21 @@ malformed symbol with three package markers, no restart other than
 The LispWorks manual does not contain an entry for \texttt{read},
 which we take to mean that the user cannot configure the reader in any
 way other than what the \cl{} standard allows.
+
+\subsection{Jan's Notes}
+
+\subsubsectionmark{SBCL Extensions}
+
+\begin{itemize}
+\item Source tracking
+\item \texttt{::(..)} syntax
+\item Rational syntax for floats
+\item Unicode normalization
+\end{itemize}
+
+\subsubsection*{Scheme}
+
+Scheme has source tracking via syntax objects.
+
+Limitation: When trying to read something circular in Racket it says
+\texttt{read-syntax: `\#...\#` forms not enabled for `read-syntax`}

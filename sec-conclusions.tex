@@ -1,1 +1,20 @@
 \section{Conclusions and future work}
+
+\subsection{Future Work}
+
+Ideas for future work:
+\begin{enumerate}
+\item The \cl{} reader associates with characters that occur within
+  symbols and numbers the concept of ``constituent traits''.  The
+  traits associated with each character are fixed and listed in the
+  \cl{} specification.  For \eclector, we plan to implement a ``traits
+  table'' that allows clients to change the constituent traits
+  associated with each character.
+
+\item We are working on a fully customizable and optimizing
+  quasiquotation processor for \eclector{}.  Customizable in this
+  context means, for example, that support for quasiquotation can be
+  added for new types of literals such as hash-table literals.
+  Optimizing means that the processor will turn quasiquoted material
+  into forms that can be evaluated efficiently.
+\end{enumerate}
