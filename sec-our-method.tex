@@ -17,6 +17,14 @@ example, in \sicl{}, the source information consists of the entire
 input file in the form of a vector of lines, and the line and column
 of the S-expression.
 
+\subsubsection{Skipped input}
+
+\eclector{} can produce \emph{parse results} that contain information
+that is normally skipped by a reader, such as comments, reader
+conditionals, and invisible features in the input, such as labeled
+object definitions and references, and feature expressions in reader
+conditionals.
+
 We could talk about the following unusual features:
 
 \begin{itemize}
