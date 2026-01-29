@@ -3,6 +3,20 @@
 
 \subsection{Features}
 
+\subsubsection{Source information}
+
+\eclector{} can be called in a way that it produces a \emph{concrete
+syntax tree} which represents the S-expression so that each node is
+wrapped in an instance of a standard class.  In addition to the raw
+S-expression, this instance contains source information, i.e., the
+position of the beginning and the end of the wrapped expression in the
+input stream.  By default, the source information consists of the
+stream position, but client code can provide a method on the relevant
+generic function so that some other representation is used.  For
+example, in \sicl{}, the source information consists of the entire
+input file in the form of a vector of lines, and the line and column
+of the S-expression.
+
 We could talk about the following unusual features:
 
 \begin{itemize}
