@@ -25,6 +25,25 @@ conditionals, and invisible features in the input, such as labeled
 object definitions and references, and feature expressions in reader
 conditionals.
 
+\subsubsection{Specific error condition types}
+
+For each error situation, \eclector{} signals a condition of a type
+that is specific to that situation.  That way, client code can handle
+each such situation differently. 
+
+\subsubsection{Recovery from errors}
+
+For every error situation, restarts are available that allows client
+code to indicate to \eclector{} that it should recover from the error.
+
+If an \texttt{end-of-file} condition is signaled, recovery consists of
+acting as if input is complete, so that string literals, lists,
+vectors, etc., are closed.
+
+If a the name of a non-existing package is used as a package prefix
+for a symbol, a restart can be invoked that returns an uninterned
+symbol instead.
+
 We could talk about the following unusual features:
 
 \begin{itemize}
@@ -62,3 +81,5 @@ and references.  Not because the performance of those is particularly
 relevant in practice but because there is algorithmic innovation in
 \eclector{} in this area and we even have an edge over \sbcl{} for
 certain cases.
+
+% LocalWords:  uninterned
