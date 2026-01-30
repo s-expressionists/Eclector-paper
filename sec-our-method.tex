@@ -25,6 +25,10 @@ conditionals, and invisible features in the input, such as labeled
 object definitions and references, and feature expressions in reader
 conditionals.
 
+While skipped material serves no purpose when a reader is used as the
+first step of a \texttt{read-eval-print} loop, it is essential when
+the reader is used to parse the contents of an editor buffer.
+
 \subsubsection{Specific error condition types}
 
 For each error situation, \eclector{} signals a condition of a type
