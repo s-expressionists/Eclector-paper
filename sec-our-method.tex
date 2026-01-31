@@ -33,7 +33,7 @@ the reader is used to parse the contents of an editor buffer.
 
 For each error situation, \eclector{} signals a condition of a type
 that is specific to that situation.  That way, client code can handle
-each such situation differently. 
+each such situation differently.
 
 \subsubsection{Recovery from errors}
 
@@ -64,6 +64,9 @@ implementation.  Its main functions will then be defined in the
 require some specific bootstrapping consideration, since it uses
 \clos{} extensively.
 
+\subsubsection{Reader state protocol}
+\label{sec:reader-state-protocol}
+
 We could talk about the following unusual features:
 
 \begin{itemize}
@@ -89,11 +92,23 @@ We could talk about the following unusual features:
 \subsection{Robustness and Unusual Inputs}
 
 \eclector{} uses a ``hybrid recursion'' approach in order to be able
-to read deeply nested expressions containing reader labels and
-references to those labels.  Typical readers (like that is SBCL for
-example) may fail, with a stack overflow, to read some such
-expressions, whereas \eclector{} succeeds.  See \refApp{app-nesting}
-for an example of such an expression.
+to process deeply nested expressions containing reader labels and
+references to those labels as well as parse results of similar
+structure.  The approach consists of initially processing the input
+recursively but tracking the recursion depth and employing iteration
+and a worklist in case the recursion depth exceeds a threshold.
+Typical readers (like that in \sbcl{} for example) may fail, with a
+stack overflow, to read and process some such expressions, whereas
+\eclector{} succeeds.  See \refApp{app-nesting} for an example of such
+an expression.
+
+Not all recursion in \eclector{} is handled using the ``hybrid
+recursion'' approach at the moment.  In particular, \textt{read} calls
+cannot nest to an arbitrary depth with the current design.  It may be
+possible to leverage the reader state protocol
+(\ref{sec:reader-state-protocol}) to break up these nested calls into
+chunks manageable by recursive processing but we have not attempted
+this technique.
 
 We can talk about the ``hybrid recursion'' strategy for handling
 deeply nested structures and similar issues.  We could give examples
@@ -110,3 +125,8 @@ relevant in practice but because there is algorithmic innovation in
 certain cases.
 
 % LocalWords:  uninterned
+
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: "eclector"
+%%% End:
