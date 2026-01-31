@@ -1,0 +1,14 @@
+\section{Appendices}
+
+\subsection{A deeply nested expression}
+\label{app-nesting}
+\begin{verbatim}
+(let ((string (with-output-to-string (stream)
+                (format stream "(#1=1~%")
+                (loop :for i :from 2  :below 10000
+                      :do (format stream 
+                                  " #~D=~V,,,'(<(~>#~D#~V,,,')<~>~%"
+                                  i 35 (1- i) 35))
+                (format stream ") ~%"))))
+  read-from-string string)))
+\end{verbatim}
