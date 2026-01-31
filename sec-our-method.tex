@@ -88,6 +88,13 @@ We could talk about the following unusual features:
 
 \subsection{Robustness and Unusual Inputs}
 
+\eclector{} uses a ``hybrid recursion'' approach in order to be able
+to read deeply nested expressions containing reader labels and
+references to those labels.  Typical readers (like that is SBCL for
+example) may fail, with a stack overflow, to read some such
+expressions, whereas \eclector{} succeeds.  See \refApp{app-nesting}
+for an example of such an expression.
+
 We can talk about the ``hybrid recursion'' strategy for handling
 deeply nested structures and similar issues.  We could give examples
 that, say, \sbcl{} cannot handle.
