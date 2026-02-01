@@ -2,6 +2,12 @@
 
 \subsection{A deeply nested expression}
 \label{app-nesting}
+
+When given the expression below for evaluation, \sbcl{} fails with a
+stack overflow after almost a minute (on a reasonably recent machine)
+of processing time, whereas \eclector{} succeeds in a fraction of a
+second.
+
 \begin{verbatim}
 (let ((string (with-output-to-string (stream)
                 (format stream "(#1=1~%")
