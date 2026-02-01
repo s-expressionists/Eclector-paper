@@ -57,6 +57,12 @@ malformed symbol with three package markers, an error of type
 \texttt{simple-reader-error} is signaled, and no restart other than
 \texttt{retry} \texttt{abort} is available.
 
+The \sbcl{} reader provides several extensions.  One such extension is
+that a package prefix with two colon character can precede any
+expression, and not just a symbol.  The effect is that the reader then
+uses the package named by the prefix as the default package to intern
+symbols in the expressions.  
+
 \subsection{Clozure Common Lisp (CCL)}
 
 When an attempt is made to read an incomplete expression, so that the
