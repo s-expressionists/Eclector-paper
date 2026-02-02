@@ -116,6 +116,27 @@ that, say, \sbcl{} cannot handle.
 
 \subsection{Efficiency}
 
+Clearly, the numerous possible ways in which \eclector{} can be
+configured affects performance.  And on \cl{} implementations with
+poor performance for generic dispatch, performance is going to be
+affected even more, since \eclector{} configuration is handled mostly
+by methods on generic functions.
+
+However, when a reader is used as part of a \texttt{read-eval-print}
+loop, the performance of the reader has very little importance, since
+the time it takes to read a form is dwarfed by the time it takes to
+compile or evaluate the result.  There are of course other situations
+where the reader is used as such, but then the native reader is
+probably unnecessarily configurable as well in many situations.
+
+We also use \eclector{} to parse the contents of an editor buffer at
+typing speed, and it would seem that performance is very important in
+this situation.  However, we then use the reader \emph{incrementally}
+and described the paper presented at ELS'18
+\cite{durand:hal-01887230}.  Furthermore, it would be impossible to
+use a native reader for this use case since many of the configurations
+that \eclector{} allows are absolutely necessary.
+
 We could do a few benchmarks
 
 Another thing we could talk about are edge cases of labeled objects
