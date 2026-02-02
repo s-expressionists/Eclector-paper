@@ -3,7 +3,17 @@
 
 \subsection{Intrinsic Use: Using \eclector as the Reader of a \cl{} Implementation}
 
-For example in Clasp and SICL
+The most obvious application for \eclector{} is as a native reader of
+some \cl{} implementation.  Currently, \eclector{} is used this way
+only in Clasp, but it will also be used in the SICL \cl{}
+implementation, once it is finished.
+
+Currently, SICL uses \eclector{} extrinsically during bootstrapping,
+in order to read forms to be evaluated in a first-class global
+environment \cite{Strandh:2015:ELS:Environments}.  Since the host
+global environment must not be affected as a result of reading these
+forms, we take full advantage of the ability to configure \eclector{}
+to avoid such side effects.
 
 \subsection{Alternate Syntax beyond Readtable and Reader Macros}
 
