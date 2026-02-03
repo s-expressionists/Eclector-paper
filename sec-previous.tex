@@ -28,6 +28,10 @@ because it might difficult to do so for a function written in
 functionality analogous to \texttt{restart-case} for \clanguage{}
 code.
 
+The \ecl{} reader is not involved in source tracking.  The compiler
+tracks the source only of top-level forms, so recursive calls to the
+reader need not be handled.
+
 \subsection{Steel-Bank Common Lisp (SBCL)}
 
 The SBCL reader is written in \cl{}, without the use of the specific
