@@ -1,8 +1,8 @@
 \section{Existing \cl{} readers}
 
-\subsection{Embeddable Common Lisp (ECL)}
+\subsection{Embeddable Common Lisp (\ecl{})}
 
-ECL is implemented as a core written in \clanguage{}.  It is built by
+\ecl{} is implemented as a core written in \clanguage{}.  It is built by
 first compiling this core and then adding code written in \cl{} by
 loading it into the system resulting from the compilation of the core.
 For that reason, the reader must be written largely in \clanguage{}.
@@ -22,9 +22,9 @@ malformed symbol with three package markers, again an error of type
 example, an attempt to read the malformed symbol \texttt{cl:::car},
 the error message is ``There is no package with the name CL:::C''.
 
-One might think that the reason ECL proposes so few restarts is
+One might think that the reason \ecl{} proposes so few restarts is
 because it might difficult to do so for a function written in
-\clanguage{} but that is not the case; ECL has full support for
+\clanguage{} but that is not the case; \ecl{} has full support for
 functionality analogous to \texttt{restart-case} for \clanguage{}
 code.
 
@@ -107,11 +107,11 @@ Clasp is a \cl{} implementation that was specifically designed to
 cooperate (FIXME, that's not the right term) with \cplusplus{} code,
 in order to take advantage of existing libraries written in
 \cplusplus{}.  Clasp was originally written as a conversion of the
-\clanguage{} code of ECL to \cplusplus{} and with almost all the \cl{}
-code from ECL.  As such, its reader is a \cplusplus{} conversion of
-the reader from ECL.  However, in later bootstrapping stages, Clasp
-uses Eclector, the subject of this paper, in order to make Eclector
-the default reader.
+\clanguage{} code of \ecl{} to \cplusplus{} and with almost all the
+\cl{} code from \ecl{}.  As such, its reader is a \cplusplus{}
+conversion of the reader from \ecl{}.  However, in later bootstrapping
+stages, Clasp uses Eclector, the subject of this paper, in order to
+make Eclector the default reader.
 
 There are plans to modify the bootstrapping procedure of Clasp so that
 the initial \cplusplus{} reader is no longer needed.  For all these
