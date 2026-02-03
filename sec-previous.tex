@@ -68,8 +68,11 @@ can be used to return a rational number that is the exact value of the
 floating-point syntax used.
 
 The \sbcl{} reader can track source positions of each object returned.
-When the object is a non-empty list, the source position is the
-opening parenthesis of the list.  FIXME: say more.
+Source tracking is handled through a special type of stream.  The
+function \texttt{\%read-preserving-whitespace} checks for the stream
+argument being of this type and, if so, registers the form and the
+position of the form.  Two parallel adjustable vectors are used for
+this purpose.
 
 \subsection{Clozure Common Lisp (CCL)}
 
