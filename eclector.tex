@@ -43,12 +43,12 @@ because it used to read \cl{} code for subsequent evaluation.  The
 readers of most existing \cl{} implementations do this well, but
 little more.  However, there are many situations where it is useful to
 read \cl{} code for other purposes as well, and in those situations it
-can be essential to configure the reader in various ways, for instance
-so that it does not fail for symbols with incorrect package markers.
-In this paper, we describe \eclector{}, a highly configurable \cl{}
-reader.  Configuration is accomplished by the extensive use of \cl{}
-generic functions called by \eclector{} and that can be specialized by
-client code.
+can be essential to be able to configure the reader in various ways,
+for instance so that it does not fail for symbols with incorrect
+package markers.  In this paper, we describe \eclector{}, a highly
+configurable \cl{} reader.  Configuration is accomplished by the
+extensive use of \cl{} generic functions called by \eclector{} and
+that can be specialized by client code.
 \end{abstract}
 
 \maketitle
