@@ -67,6 +67,21 @@ require some specific bootstrapping consideration, since it uses
 \subsubsection{Reader state protocol}
 \label{sec:reader-state-protocol}
 
+Any native \cl{} reader consults several special variable in order to
+determine actions in various situations.  These special variables are
+not set by the reader, but by other features of the \cl{} system, and
+just consulted by the reader.  For example, the reader uses the
+special variable \texttt{*readtable*} to determine which readtable to
+use to determine the \emph{syntax type} associated with a character.
+Another example of such a special variable is \emph{*read-base*} that
+determines the numeric base for reading numbers.
+
+When \eclector{} is used extrinsically, it is clearly not possible to
+use the host versions of these variables.  For that reason,
+\eclector{} defines a \emph{reader state protocol} that replaces the
+direct use of these special variables and other aspects of the current
+reader state.
+
 We could talk about the following unusual features:
 
 \begin{itemize}
