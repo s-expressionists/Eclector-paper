@@ -115,10 +115,10 @@ stack overflow, to read and process some such expressions, whereas
 an expression.
 
 Not all recursion in \eclector{} is handled using the ``hybrid
-recursion'' approach at the moment.  In particular, \texttt{read} calls
-cannot nest to an arbitrary depth with the current design.  It may be
-possible to leverage the reader state protocol
-(\ref{sec:reader-state-protocol}) to break up these nested calls into
+recursion'' approach at the moment.  In particular, \texttt{read}
+calls cannot nest to an arbitrary depth with the current design.  It
+may be possible to leverage the reader state protocol
+\seesec{sec:reader-state-protocol} to break up these nested calls into
 chunks manageable by recursive processing but we have not attempted
 this technique.
 
