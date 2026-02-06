@@ -80,7 +80,16 @@ When \eclector{} is used extrinsically, it is clearly not possible to
 use the host versions of these variables.  For that reason,
 \eclector{} defines a \emph{reader state protocol} that replaces the
 direct use of these special variables and other aspects of the current
-reader state.
+reader state.  Instead, the reader state protocol uses \emph{symbols}
+(often the same symbols that name the host special variables) called
+\emph{aspects}.
+
+The reader state protocol consists of a small number of generic
+functions that are called by \eclector{} and client code to query or
+modify the reader state.  Each of these generic functions will have an
+aspect as one of its arguments.  These functions also have a
+\emph{client} parameter that can be used by client code to create
+specific methods.
 
 We could talk about the following unusual features:
 
