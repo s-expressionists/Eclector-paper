@@ -39,9 +39,9 @@ The \ecl{} reader is not involved in source tracking.  The compiler
 tracks the source only of top-level forms, so recursive calls to the
 reader need not be handled.
 
-\subsection{Steel-Bank Common Lisp (SBCL)}
+\subsection{Steel-Bank Common Lisp (\sbcl{})}
 
-The SBCL reader is written in \cl{}, without the use of the specific
+The \sbcl{} reader is written in \cl{}, without the use of the specific
 features of the \cl{} Object System (\clos{}) such as generic
 functions and standard classes.
 
@@ -85,7 +85,11 @@ argument being of this type and, if so, registers the form and the
 position of the form.  Two parallel adjustable vectors are used for
 this purpose.
 
-\subsection{Clozure Common Lisp (CCL)}
+\subsection{Clozure Common Lisp (\ccl{})}
+
+The \ccl{} reader is written in \cl{}, without the use of the specific
+features of the \cl{} Object System (\clos{}) such as generic
+functions and standard classes.
 
 When an attempt is made to read an incomplete expression, so that the
 \texttt{end-of-file} condition is signaled, only restarts that return
@@ -107,6 +111,14 @@ When an attempt is made to read an incorrect token in the form of a
 malformed symbol with three package markers, no error is signaled at
 all, and instead the third package marker is treated as escaped, so
 that it is part of the symbol.
+
+The \ccl{} reader can track source positions.  It registers the stream
+position before and after an expression has been read, and creates an
+instance of a \texttt{struct} named \texttt{source-note} and stores
+this instance in a hash table.  Source positions are recorded only if
+the stream is an element of the list
+\texttt{*recording-source-streams*}, which is the case when the reader
+is called for the purpose of evaluating the resulting expression.
 
 \subsection{Clasp}
 
