@@ -38,12 +38,32 @@ Important features
 
 \subsection{Static Analysis}
 
-Important features
+For some applications doing \emph{static analysis} of \cl{} code, it
+is not possible, or at least undesirable, to use the native reader.  A
+typical example would be a so-called \emph{linter}, i.e., a tool for
+analyzing code with the purpose of giving the user more feedback about
+the code than a typical compiler will do.  Such feedback can include
+violations of conventional style and suggestions for improving the
+readability of the code.
+
+Such tools should preferably not have any side effects on the host
+\cl{} image such as:
 
 \begin{itemize}
-\item No side effects (Interning, package system changes, code evaluation)
-\item Error recovery
+\item interning symbols in some host package,
+\item altering the package system, or
+\item evaluating code.
 \end{itemize}
+
+The host reader can then not be used because of the possibility of
+read-time evaluation, or simply the use of double package markers for
+some symbol that will then be interned in some host package.  And the
+code being analyzed may contain package markers for packages that have
+not been created in the host \cl{} system.
+
+An important feature of a reader to be used with such a tool is the
+desire to recover from errors such as syntax errors in tokens.  The
+tool would then report the error and then continue the analysis.
 
 Limitations
 
