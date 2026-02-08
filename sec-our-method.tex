@@ -67,29 +67,41 @@ require some specific bootstrapping consideration, since it uses
 \subsubsection{Reader state protocol}
 \label{sec:reader-state-protocol}
 
-Any native \cl{} reader consults several special variable in order to
-determine actions in various situations.  These special variables are
-not set by the reader, but by other features of the \cl{} system, and
-just consulted by the reader.  For example, the reader uses the
+Any native \cl{} reader (and by default \eclector{} does this as well)
+consults several special variables in order to determine actions in
+various situations.  These special variables are set by user code,
+other features of the \cl{} system, and the, although rarely, reader
+itself, and consulted by the reader.  For example, the reader uses the
 special variable \texttt{*readtable*} to determine which readtable to
 use to determine the \emph{syntax type} associated with a character.
 Another example of such a special variable is \emph{*read-base*} that
 determines the numeric base for reading numbers.
 
 When \eclector{} is used extrinsically, it is clearly not possible to
-use the host versions of these variables.  For that reason,
-\eclector{} defines a \emph{reader state protocol} that replaces the
-direct use of these special variables and other aspects of the current
-reader state.  Instead, the reader state protocol uses \emph{symbols}
-(often the same symbols that name the host special variables) called
-\emph{aspects}.
+use the host versions of these variables.  For that reason, among
+others, \eclector{} defines a \emph{reader state protocol} that
+replaces the direct use of these special variables and.  Instead, the
+reader state protocol uses \emph{symbols} (often the same symbols that
+name the host special variables) called \emph{aspects} to denote the
+variables.
+
+The reader state which \eclector{} queries and manipulates through the
+reader state protocol contains aspects that do not denote any of the
+standard special variables: one aspect controls whether the consing
+dot is legal in the current state.  Another aspect tracks the
+quasiquotation nesting level.  User code can in principle add
+additional, custom aspects.  The intention of the reader state
+protocol is to allow representing the entire state of the reader as
+one or more first-class objects (TODO: talk more about how that helps
+with incremental parsing?).
 
 The reader state protocol consists of a small number of generic
-functions that are called by \eclector{} and client code to query or
-modify the reader state.  Each of these generic functions will have an
-aspect as one of its arguments.  These functions also have a
-\emph{client} parameter that can be used by client code to create
-specific methods.
+functions like \texttt{state-value}, \texttt{(setf state-value)} and
+\texttt{call-with-state-value} that are called by \eclector{} and
+client code to query or modify the aspects of the reader state.  Each
+of these generic functions will have an aspect as one of its
+arguments.  These functions also have a \emph{client} parameter that
+can be used by client code to create specific methods.
 
 We could talk about the following unusual features:
 
