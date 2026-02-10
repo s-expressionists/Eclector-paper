@@ -19,22 +19,43 @@ to avoid such side effects.
 
 https://github.com/pve1/eclector-access/
 
-maybe coalton
+Coalton language: https://github.com/coalton-lang/coalton/blob/main/src/parser/reader.lisp
 
 maybe Hayley's language
 
-\subsection{Reader Part of Sandboxed Evaluation}
+\subsection{Reader part of sandboxed evaluation}
 
-\subsection{Syntax Highlighting}
+\subsection{Syntax highlighting}
 
-For documentation, editors, REPLs and IDEs
+For documentation
 
 Important features
 
 \begin{itemize}
 \item No side effects (Interning, package system changes, code evaluation)
+\item Parse results, skipped material, ``invisible'' objects
 \item Error recovery
 \end{itemize}
+
+\subsection{Incremental parsing for editor-like applications}
+\label{sec:incremental-parsing}
+
+\eclector{}'s ability to recover from errors, represent the state of
+the reader as a first class object, produce parse results for
+expressions as well as skipped material with source information and
+operate without side-effects enable incremental parsing.  Incremental
+parsing is useful in interactive, editor-like applications like REPLs,
+Listeners, IDEs, LSP\footnote{Language Server Protocol}-servers and of
+course source code editors.
+
+\begin{itemize}
+\item No side effects (Interning, package system changes, code evaluation)
+\item Parse results, skipped material, ``invisible'' objects
+\item Reader state protocol
+\item Error recovery
+\end{itemize}
+
+\subsection{Death's grep}
 
 \subsection{Static Analysis}
 
@@ -44,7 +65,19 @@ typical example would be a so-called \emph{linter}, i.e., a tool for
 analyzing code with the purpose of giving the user more feedback about
 the code than a typical compiler will do.  Such feedback can include
 violations of conventional style and suggestions for improving the
-readability of the code.
+readability of the code.  Other examples include
+
+\begin{itemize}
+\item spelling mistakes in comments or symbol names
+\item unnecessary package prefix in case the symbol in question is
+  accessible in the current package or a package-local nickname allows
+  a shorter spelling.
+\item use of two-package markers when spelling an external symbol
+\item use of the wrong number of semicolons for a comment at a given
+  level (for example two semicolons for a comment at the toplevel)
+\item logical errors in reader conditionals such as
+  \texttt{#+win32(\dots{} #+(and thread (not win32))(\dots{}) \dots{})}
+\end{itemize}
 
 Such tools should preferably not have any side effects on the host
 \cl{} image such as:
@@ -64,6 +97,17 @@ not been created in the host \cl{} system.
 An important feature of a reader to be used with such a tool is the
 desire to recover from errors such as syntax errors in tokens.  The
 tool would then report the error and then continue the analysis.
+
+In some cases ``invisible'' objects such as feature conditionals,
+labeled objects and skipped material like comments when those things
+are the subject of the analysis.
+
+Important features for static analysis
+
+\begin{itemize}
+\item No side effects (Interning, package system changes, code evaluation)
+\item Error recovery
+\end{itemize}
 
 Limitations
 
