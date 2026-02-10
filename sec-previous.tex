@@ -72,7 +72,7 @@ The \sbcl{} reader provides several extensions.  One such extension is
 that a package prefix with two colon character can precede any
 expression, and not just a symbol.  The effect is that the reader then
 uses the package named by the prefix as the default package to intern
-symbols in the expressions.  
+symbols in the expressions.
 
 Another extension is that the exponent marker \texttt{r} or \texttt{R}
 can be used to return a rational number that is the exact value of the
@@ -167,20 +167,29 @@ The LispWorks manual does not contain an entry for \texttt{read},
 which we take to mean that the user cannot configure the reader in any
 way other than what the \cl{} standard allows.
 
+\subsection{Scheme}
+
+Many implementations of the \scheme{} language support the concept of
+\emph{syntax objects} which are \scheme{} datums annotated which
+additional information such as scope information for identifiers or
+source information for forms read from files.  While the original
+motivation for syntax objects seems to have been hygienic macros,
+attaching source information to all datums\footnote{not just lists,
+  vectors, etc.} is clearly useful as well.
+
+See \texttt{read-syntax} in Guile: https://www.gnu.org/software/guile/manual/html_node/Annotated-Scheme-Read.html
+
+As far as we can tell, syntax objects allow and actually are used for
+reading \emph{forms} with source information but don't seem to support
+producing parse results for \emph{skipped material} like comments.
+
+Possible Limitation: When trying to read something circular in Racket it says
+\texttt{read-syntax: `\#...\#` forms not enabled for `read-syntax`}
+
 \subsection{Jan's Notes}
 
 \subsubsectionmark{SBCL Extensions}
 
 \begin{itemize}
-\item Source tracking
-\item \texttt{::(..)} syntax
-\item Rational syntax for floats
 \item Unicode normalization
 \end{itemize}
-
-\subsubsection*{Scheme}
-
-Scheme has source tracking via syntax objects.
-
-Limitation: When trying to read something circular in Racket it says
-\texttt{read-syntax: `\#...\#` forms not enabled for `read-syntax`}
