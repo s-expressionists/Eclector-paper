@@ -1,5 +1,24 @@
 \section{Conclusions and future work}
 
+\subsection{Limitations}
+
+\begin{itemize}
+\item Slow development speed
+\item Breaking changes as customizability grows
+\item More customizability and sophisticated mechanism lead to
+  widening gap between ``aware'' and ``unaware'' user-code such as
+  reader macros
+\item User-written reader macros can be at odds with many of the goals
+  mentioned above (such as no effects, always being able to recover,
+  etc.)
+\item User-written (s-expression) macros can be at odds with source
+  tracking.  The concrete syntax tree library provides
+  \texttt{reconstruct} but that is approximate.  Other approaches
+  include CST-based or AST-based macros and Scheme-like syntax objects
+  but those approaches would be very disruptive for \cl{} users
+  (programmers).
+\end{itemize}
+
 \subsection{Future Work}
 
 Ideas for future work:
