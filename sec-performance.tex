@@ -6,9 +6,9 @@
 
 We measured the time it took the native readers of different \cl{}
 implementations as well as extrinsic \eclector{} in those same
-implementation to read the contents of \cl{} files taken real-word
-open source libraries.  Code similar to the following was used to
-perform the benchmarking:
+implementation to read the contents of \cl{} files taken from
+real-word open source libraries.  Code similar to the following was
+used to perform the benchmarking:
 
 \begin{verbatim}
 (let ((content (alexandria:read-file-into-string filename)))
