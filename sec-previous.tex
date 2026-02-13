@@ -27,7 +27,8 @@ When an attempt is made to read an incorrect token in the form of a
 malformed symbol with three package markers, again an error of type
 \texttt{simple-error} is signaled, and the message is cryptic.  For
 example, an attempt to read the malformed symbol \texttt{cl:::car},
-the error message is ``There is no package with the name CL:::C''.
+the error message is ``There is no package with the name
+\texttt{CL:::C}''.
 
 One might think that the reason \ecl{} proposes so few restarts is
 because it might difficult to do so for a function written in
@@ -47,7 +48,7 @@ functions and standard classes.
 
 When an attempt is made to read an incomplete expression, so that the
 \texttt{end-of-file} condition is signaled, no restart other than
-\texttt{retry} \texttt{abort} is available.
+\texttt{retry} and \texttt{abort} is available.
 
 When an attempt is made to read a symbol with an explicit package
 marker where the corresponding package does not exist, an error of
@@ -66,7 +67,7 @@ restarts are then available:
 When an attempt is made to read an incorrect token in the form of a
 malformed symbol with three package markers, an error of type
 \texttt{simple-reader-error} is signaled, and no restart other than
-\texttt{retry} \texttt{abort} is available.
+\texttt{retry} and \texttt{abort} is available.
 
 The \sbcl{} reader provides several extensions.  One such extension is
 that a package prefix with two colon character can precede any
