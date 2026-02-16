@@ -79,15 +79,15 @@ for configuring it.
 \subsubsection{Reader state protocol}
 \label{sec:reader-state-protocol}
 
-Any native \cl{} reader (and by default \eclector{} does this as well)
-consults several special variables in order to determine actions in
-various situations.  These special variables are set by user code,
-other features of the \cl{} system, and the, although rarely, reader
-itself, and consulted by the reader.  For example, the reader uses the
-special variable \texttt{*readtable*} to determine which readtable to
-use to determine the \emph{syntax type} associated with a character.
-Another example of such a special variable is \emph{*read-base*} that
-determines the numeric base for reading numbers.
+Any native \cl{} reader (and the intrinsic version of \eclector{} does
+this as well) consults several special variables in order to determine
+actions in various situations.  These special variables are set by
+user code, by other features of the \cl{} system, and (rarely) by the
+reader itself.  For example, the reader uses the special variable
+\texttt{*readtable*} to determine which readtable to use to determine
+the \emph{syntax type} associated with a character.  Another example
+of such a special variable is \emph{*read-base*} that determines the
+numeric base for reading numbers.
 
 When \eclector{} is used extrinsically, it is clearly not possible to
 use the host versions of these variables.  For that reason, among
