@@ -72,8 +72,9 @@ implementation, or to replace the existing reader of an existing \cl{}
 implementation.  Its main functions will then be defined in the
 \texttt{common-lisp} package.  We call this way of using \eclector{}
 ``intrinsic''.  Intrinsic use in a new \cl{} implementation will
-require some specific bootstrapping consideration, since it uses
-\clos{} extensively.
+require some specific bootstrapping consideration, since
+\clos{} is used extensively both in the implementation of \eclector{}
+for configuring it.
 
 \subsubsection{Reader state protocol}
 \label{sec:reader-state-protocol}
