@@ -55,8 +55,6 @@ course source code editors.
 \item Error recovery
 \end{itemize}
 
-\subsection{Death's grep}
-
 \subsection{Static Analysis}
 
 For some applications doing \emph{static analysis} of \cl{} code, it
@@ -115,6 +113,20 @@ Limitations
 \item Reader macros
 \item Read-time evaluation
 \end{itemize}
+
+\subsubsection{formgrep}
+
+The library \texttt{formgrep}%
+\footnote{https://github.com/death/formgrep}
+provides functionalities similar to those of the \unix{} \texttt{grep}
+utility, except that it works on S-expressions rather than text.  This
+library takes a collection of files and a regular expression as
+arguments.  It then uses \eclector{} to parse each file.  It defines a
+method on the \eclector{} generic function \texttt{interpret-symbol}
+that uses the regular expression on the token representing a symbol
+that \eclector{} recognizes to determine whether there is a match.  If
+so, it accumulates the token in a list of matches that is ultimately
+returned. 
 
 \subsubsection{rewrite-cl}
 
