@@ -126,22 +126,22 @@ method on the \eclector{} generic function \texttt{interpret-symbol}
 that uses the regular expression on the token representing a symbol
 that \eclector{} recognizes to determine whether there is a match.  If
 so, it accumulates the token in a list of matches that is ultimately
-returned. 
+returned.
 
-\subsubsection{rewrite-cl}
+% \subsubsection{rewrite-cl}
 
-The library \texttt{cl-rewrite}%
-\footnote{https://github.com/atgreen/rewrite-cl}
-was written by Anthony Green.  It
-parses \cl{} code as text into a structure called a \emph{zipper}.
-Each node in the zipper contains a corresponding element of the
-S-expression being parsed.  The type of the node corresponds to the
-nature of the element, such as a token, a list, a vector, etc.
-Furthermore, each node contains information about the source position
-of the element.
+% The library \texttt{cl-rewrite}%
+% \footnote{https://github.com/atgreen/rewrite-cl}
+% was written by Anthony Green.  It
+% parses \cl{} code as text into a structure called a \emph{zipper}.
+% Each node in the zipper contains a corresponding element of the
+% S-expression being parsed.  The type of the node corresponds to the
+% nature of the element, such as a token, a list, a vector, etc.
+% Furthermore, each node contains information about the source position
+% of the element.
 
-The zipper structure can then be manipulated in various ways, such as
-nodes being replaced, and the result can then be written to a file.
+% The zipper structure can then be manipulated in various ways, such as
+% nodes being replaced, and the result can then be written to a file.
 
 \subsubsection{mallet}
 
