@@ -126,7 +126,12 @@ method on the \eclector{} generic function \texttt{interpret-symbol}
 that uses the regular expression on the token representing a symbol
 that \eclector{} recognizes to determine whether there is a match.  If
 so, it accumulates the token in a list of matches that is ultimately
-returned.
+returned.  For reader conditionals, \texttt{formgrep} configures
+\eclector{} to always read the guarded expression regardless of the
+condition.  \texttt{formgrep} uses the idiom \texttt{(handler-bind
+  ((error \#'eclector.base:recover)) \dots)} to deal with parts of the
+input that are either invalid or cannot be read with the employed
+\eclector{} configuration.
 
 % \subsubsection{rewrite-cl}
 
