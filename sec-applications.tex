@@ -145,6 +145,23 @@ returned.
 
 \subsubsection{mallet}
 
-The library \texttt{mallet}%
-\footnote{https://github.com/fukamachi/mallet}
-was written by Eitaro Fukamachi
+The purpose of the library \texttt{mallet}%
+\footnote{https://github.com/fukamachi/mallet} which was written by
+Eitaro Fukamachi is to read \cl{} code and analyze it according to
+configurable rules in order to detect mistakes and deviations from a
+desired coding style.  The library configures \eclector{} so that it
+behaves differently compared to the standard reader in multiple ways:
+
+\begin{enumerate}
+\item \eclector{} is configured to produce parse results with source
+  information
+\item \texttt{mallet} recovers from many errors by specifically
+  handling a number of the specialized conditions which \eclector{}
+  signals
+\item \texttt{mallet} handles elements of the code that cannot be read
+  in the usual way without affecting the Lisp image such as symbols
+  that would require interning or read-time evaluation by configuring
+  \eclector{} to produce placeholder objects instead.
+\end{enumerate}
+
+\subsubsection{Other projects which use \eclector{}}
