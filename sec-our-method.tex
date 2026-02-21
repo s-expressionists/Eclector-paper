@@ -193,6 +193,10 @@ that, say, \sbcl{} cannot handle.
 
 \subsection{Efficiency}
 
+\todo{explain this: raw performance may be not as good as other
+readers but we try to avoid problems that stem from algorithms with
+bad asymptotic complexity so that there are no pathological inputs.}
+
 Clearly, the numerous possible ways in which \eclector{} can be
 configured affects performance.  And on \cl{} implementations with
 poor performance for generic dispatch, performance is going to be
