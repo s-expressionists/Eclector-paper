@@ -165,17 +165,59 @@ of these generic functions will have an aspect as one of its
 arguments.  These functions also have a \emph{client} parameter that
 can be used by client code to create specific methods.
 
-We could talk about the following unusual features:
+\subsubsection{Labeled Objects}
+\label{sec:labeled-objects}
 
-\begin{itemize}
+The \cl{} standard specifies the reader macros
+$\texttt{\#}N\texttt{=}expression$ and $\texttt{\#}N\texttt{\#}$ for
+defining and referencing labeled objects respectively.  We call $N$
+the \emph{label}.  \eclector{} processes these definitions and
+references for each label $N$ according to a state machine that is
+illustrated in Figure~\ref{fig:labeled-objects}.
+\begin{figure*}
+  \centering
+  \includegraphics[width=\linewidth]{figures/labeled-object-states.png}
+  \caption{Labeled object states}
+  \label{fig:labeled-objects}
+\end{figure*}
+Each label starts out as \emph{undefined} and potentially transitions
+to \emph{defined}, \emph{circular}, \emph{referenced} and
+\emph{final}.
+\todo{make sure those are all states, make sure we have selected the matching figure}
+Based on this state machine, \eclector{} provides a customizable
+protocol for processing labeled objects with generic functions like
+\texttt{note-labeled-object}, \texttt{forget-labeled-object},
+\texttt{reference-labeled-object}.
 
-\item Most aspect of the reader are customizable. Customization in
-  standard \cl{}: Reader control variables and Readtable (case, syntax
-  type, macros)
-
-\end{itemize}
+The second part of handling labeled objects is processing the objects
+produced by the reader before they are returned to the caller such
+that labeled object references%
+\footnote{This delayed substitution is required only in case of
+  circular structure.  In cases like \texttt{(\#1=:a \#1\#)}, the
+  referenced object can be substituted immediately.}
+are replaced by the respective referenced object.  We refer to this
+process as \emph{fixup}.  \eclector{} uses a \emph{fixup graph} data
+structure to manage the algorithmic complexity of pathological inputs
+\todo{should reference some subsection of the performance section for a concrete example?}
+as well as another protocol to make the fixup processes extensible and
+customizable.  In particular, clients can add support for fixing up
+objects such as hash-tables that don't have a literal syntax in the
+standard or implementation-specific objects.  The fixup protocol
+consists of generic functions for controlling the traversal of the
+fixup graph like \texttt{walk-fixup-tree} as well as functions for
+controlling the substitution in individual objects such as
+\texttt{fixup} and \texttt{new-value-for-fixup}.
 
 \subsection{Robustness and Unusual Inputs}
+
+While \eclector{} will likely be used for reading source code in most
+applications, the possibility of using \eclector{}
+\emph{intrinsically} requires it to handle any kind of input the user
+of a \cl{} implementation could apply \texttt{read} to.  As one
+example, for data serialized as s-expressions, the lengths of lists
+and vectors, the nesting depths of expression, the frequency of
+circular structure and the overall size of the input can be vastly
+different from source code.
 
 \eclector{} uses a ``hybrid recursion'' approach in order to be able
 to process deeply nested expressions containing reader labels and
