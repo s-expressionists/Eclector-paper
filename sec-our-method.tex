@@ -4,17 +4,58 @@
 In this section, we discuss features and other characteristics of
 \eclector{}.  \eclector{} was initially created as the native reader
 for the \sicl{}%
-\footnote{https://github.com/robert-strandh/SICL}
-project, still under development.  From the start, it was designed to
-make it possible to parse an editor buffer as described in
-\cite{durand:hal-01887230}.  Early on, the code was extracted and
+\footnote{\url{https://github.com/robert-strandh/SICL}} project, still
+under development.  From the start, it was designed, in addition to
+providing the reader for \sicl{}, to make it possible to parse an
+editor buffer as described in \cite{durand:hal-01887230}.  Early on,
+the code was extracted from \sicl{} into a separate project and
 renamed to \eclector{}.  From then on, it evolved entirely
 independently of \sicl{}, through the work of the first author of this
-paper. 
+paper and the project goals became more clearly defined as well as
+broader in scope:
+
+\begin{itemize}
+\item \eclector{} should provide a reader that strictly conforms to
+  the \cl specification.
+\item \eclector{} should provide distinct condition types with precise
+  and localizable error messages\footnote{\eclector{} uses the
+    \href{https://github.com/robert-strandh/acclimation}{acclimation}
+    library to enable error messages in multiple languages but
+    messages for languages other than English have not been added at
+    this time.} for all possible syntax errors.
+\item \eclector{} should be able to recover from any syntax error and
+  produce a result that represents the invalid input as closely as
+  possible if the user invokes the corresponding restart.
+\item All aspects of \eclector{} should be extensible and customizable
+  beyond what \cl{} offers by means of special variables and
+  readtables.
+\item \eclector{} should provide source location tracking and parse
+  result construction, including the representation of \emph{skipped
+  material} (See \ref{sec:source-information})
+\item \eclector{} should achieve acceptable performance in general and
+  non-catastrophic performance degradation for pathological inputs
+  where possible
+  TODO: reference a section that talks about this in detail?
+\item \eclector{} should be robust against unusual inputs such as data
+  serialized as s-expressions.  More concretely, deeply nested or
+  circular expressions should not cause \eclector{} to exhaust the
+  available stack space.
+  TODO: should we instead talk about the depth of nested function calls to avoid the implementation detail?
+\end{itemize}
+
+After about a decade of slow-paced development in total, \eclector{}
+is now a relatively mature project made available under the
+``2-clause'' BSD license with extensive documentation, many releases
+and several users.  The codebase consists of around $5.000$ lines of
+implementation code and around $5.000$ lines of test code.  The test
+suite achieves almost full line- and branch-coverage of the codebase
+and applies random testing techniques for certain aspects of the
+implementation.
 
 \subsection{Features}
 
 \subsubsection{Source information}
+\label{sec:source-information}
 
 \eclector{} can be called in a way that it produces a \emph{concrete
 syntax tree} which represents the S-expression so that each node is
