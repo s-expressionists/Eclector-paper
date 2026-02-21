@@ -80,18 +80,18 @@ Another extension is that the exponent marker \texttt{r} or \texttt{R}
 can be used to return a rational number that is the exact value of the
 floating-point syntax used.
 
+The names of symbols created by the \sbcl{} reader can be normalized
+according the ``Normalization Form KC'' which is specified for
+Unicode.  Whether symbol names are normalized in this way is
+controlled by the accessor \texttt{readtable-normalization} which
+operators on a readtable.
+
 The \sbcl{} reader can track source positions of each object returned.
 Source tracking is handled through a special type of stream.  The
 function \texttt{\%read-preserving-whitespace} checks for the stream
 argument being of this type and, if so, registers the form and the
 position of the form.  Two parallel adjustable vectors are used for
 this purpose.
-
-Symbols created by the \sbcl{} reader can be created according to the
-``Normalization Form KC'' of Unicode.  Whether symbol names are
-normalized is controlled by the function
-\texttt{readtable-normalization} which takes a readtable as its
-argument.
 
 \subsection{Clozure Common Lisp (\ccl{})}
 
