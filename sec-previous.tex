@@ -49,7 +49,12 @@ reader need not be handled.
 
 The \sbcl{} reader is written in \cl{}, without the use of the specific
 features of the \cl{} Object System (\clos{}) such as generic
-functions and standard classes. \todo{highly optimized}
+functions and standard classes.
+
+The code is highly optimized.  Avoiding generic functions (which are
+relatively slow compared to ordinary functions in \sbcl{}) is part of
+this optimization.  Also, disabling bounds checks when it is known
+that an array index is valid makes the code faster.
 
 When an attempt is made to read an incomplete expression, so that the
 \texttt{end-of-file} condition is signaled, no restart other than
