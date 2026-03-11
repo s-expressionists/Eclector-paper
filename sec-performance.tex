@@ -50,16 +50,15 @@ the benchmark runs:
 
 Results
 
-\todo{maybe measure Eclector with CST output as well?}
-
-\begin{tabular}{llr}
-  \textbf{Reader} & \textbf{enc-cn-tbl.lisp} & \textbf{screamer.lisp}\\
-  SBCL native     & 0.034 s                  & 0.011 s\\
-  SBCL Eclector   & 0.161 s                  & 0.052 s\\
-  CCL native      & 0.193 s                  & 0.051 s\\
-  CCL Eclector    & 0.546 s                  & 0.179 s\\
+\begin{tabular}{lrr}
+  \textbf{Reader}    & \textbf{enc-cn-tbl.lisp} & \textbf{screamer.lisp}\\
+  SBCL native        & 0.034 s                  & 0.011 s\\
+  SBCL Eclector      & 0.161 s                  & 0.052 s\\
+  SBCL Eclector CST  & 0.475 s                  & 0.096 s\\
+  CCL native         & 0.186 s                  & 0.047 s\\
+  CCL Eclector       & 1.249 s                  & 0.607 s\\
+  CCL Eclector CST   & 4.108 s                  & 0.961 s\\
 \end{tabular}
-
 
 %%% Local Variables:
 %%% mode: LaTeX
