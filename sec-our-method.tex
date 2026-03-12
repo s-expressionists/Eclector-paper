@@ -7,14 +7,14 @@ for the \sicl{}%
 \footnote{\url{https://github.com/robert-strandh/SICL}} project, still
 under development.  From the start, it was designed, in addition to
 providing the reader for \sicl{}, to make it possible to parse an
-editor buffer as described in \cite{durand:hal-01887230}.  Early on,
+editor buffer as described in \cite{durand:hal-01887230}.  \todo{citation style} Early on,
 the code was extracted from \sicl{} into a separate project and
 renamed to \eclector{}.  From then on, it evolved entirely
 independently of \sicl{}, through the work of the first author of this
 paper and the project goals became more clearly defined as well as
 broader in scope:
 
-\begin{itemize}
+\begin{enumerate}
 \item \eclector{} should provide a reader that strictly conforms to
   the \cl{} specification.
 \item \eclector{} should provide distinct condition types with precise
@@ -23,15 +23,16 @@ broader in scope:
     library to enable error messages in multiple languages but
     messages for languages other than English have not been added at
     this time.} for all possible syntax errors.
-\item \eclector{} should be able to recover from any syntax error and
-  produce a result that represents the invalid input as closely as
-  possible if the user invokes the corresponding restart.
+\item For invalid inputs, \eclector{} should be able to recover from
+  any syntax error and produce a result that represents the invalid
+  input as closely as possible if the corresponding restart is
+  invoked.
 \item All aspects of \eclector{} should be extensible and customizable
   beyond what \cl{} offers by means of special variables and
   readtables.
 \item \eclector{} should provide source location tracking and parse
   result construction, including the representation of \emph{skipped
-  material} (See \ref{sec:source-information})
+  material} \seesec{sec:source-information}.
 \item \eclector{} should achieve acceptable performance in general and
   non-catastrophic performance degradation for pathological inputs
   where possible
@@ -41,18 +42,23 @@ broader in scope:
   circular expressions should not cause \eclector{} to exhaust the
   available stack space.
   \todo{should we instead talk about the depth of nested function calls to avoid the implementation detail?}
-\end{itemize}
+\end{enumerate}
 
 After about a decade of slow-paced development in total, \eclector{}
-is now a relatively mature project made available under the
-``2-clause'' BSD license with extensive documentation, many releases
-and several users.  The codebase consists of around $5.000$ lines of
-implementation code and around $5.000$ lines of test code.  The test
-suite achieves almost full line- and branch-coverage of the codebase
-and applies random testing techniques for certain aspects of the
-implementation.
+is now a relatively mature project which mostly meets the above goals
+and is made available under the ``2-clause'' BSD license with
+extensive documentation, many releases and several users.  The
+codebase consists of around $5.000$ lines of implementation code and
+around $5.000$ lines of test code.  The test suite achieves almost
+full line- and branch-coverage of the codebase and applies random
+testing techniques for certain aspects of the implementation.
+
+\todo{what to list here?} The following sections discuss features
+provided by \eclector{} (\refSec{sec:features}), protocols for
+customizing \eclector{} (\refSec{sec:protocols}) and \todo{...}.
 
 \subsection{Features}
+\label{sec:features}
 
 \subsubsection{Source information}
 \label{sec:source-information}
@@ -122,9 +128,77 @@ for configuring it.
 
 The possibilities for customization that \eclector{} provides are
 implemented in the form of a number of protocols.  This section
-presents some of the noteworthy protocols.
+presents some of the noteworthy protocols\footnote{A complete
+  description of the protocols \eclector{} provides for customization
+  can be found in the
+  \href{https://s-expressionists.github.io/Eclector/eclector.html\#External-protocols}{External protocols}
+  section of the manual.}.
 
-\todo{basic flow call-as-toplevel-read, maybe-read-nothing etc}
+\subsubsection{The client parameter design pattern}
+\label{sec:client-parameter}
+
+For providing an optional and unintrusive customization mechanism to
+clients of the library, \eclector{} uses the ``client parameter''
+design pattern which is employed in the same way in other libraries
+related to the \sicl{} project as well%
+\cite[Section 3.1]{DBLP:conf/els/StrandhD22}.  In short, the pattern
+consists of adding an additional parameter, usually called
+\texttt{client} and positioned as the first element of the lambda
+list, to generic functions that should be customizable.  The library
+is structured such that a client (user) of the library can easily
+arrange for the relevant generic functions to be called with a
+particular value for the \texttt{client} parameter.  This allows
+clients to define methods specialized to the class of the
+client-supplied value on the customizable generic functions and have
+those methods be the most specific and thus in charge of the behavior
+of the respective generic function.  \eclector{} provides a special
+variable named \texttt{eclector.base:*client*} which users of the
+library can set or bind to a client object.  Functions like
+\texttt{eclector.reader:read} pass the value of the variable to
+customizable generic function.  As a result, the high-level reader
+interface is unchanged compared to the \cl{} specification but aspects
+of the reader behavior can be customized by defining methods and
+binding a special variable around calls of the high-level reader
+function.  Listing~\ref{lis:customization} shows a very simple example
+of this customization technique.
+
+\begin{listing}
+\begin{minted}[fontsize=\small,linenos,escapeinside=||]{lisp}
+(defclass my-client () ())
+(defmethod eclector.reader:interpret-token
+    ((client my-client) (stream t) (token t) (escape-ranges t))
+  (let ((result (call-next-method)))
+    (if (typep result 'number) (- result) result)))
+(let ((eclector.base:*client* (make-instance 'my-client)))
+  (eclector.reader:read-from-string "5"))
+|\Rightarrow| -5, 1
+\end{minted}
+\caption{A simple customization that makes the reader negate any
+  number tokens before returning them to the caller.}
+\label{lis:customization}
+\end{listing}
+
+\subsubsection{Reader behavior protocol}
+\label{sec:reader-behavior-protocol}
+
+The \cl{} specification describes the core of the reader,
+i.e. excluding reader macros, in terms of a ``reader algorithm'' which
+employs concepts such as toplevel and recursive \texttt{read} calls,
+skipping and preserving whitespace, interpretation of tokens,
+invocation of reader macros and more.  However, only a subset of these
+concepts and algorithmic aspects are reflected in the programming
+interface of the \cl{} reader, namely the functions \texttt{read},
+\texttt{read-from-string}, \texttt{read-preserving-whitespace} and
+\texttt{read-delimited-list}. \eclector{} tries to promote the
+mentioned concepts and algorithmic aspects to first-class status by
+providing protocol functions such as \texttt{call-as-top-level-read},
+\texttt{read-common}, \texttt{read-maybe-nothing},
+\texttt{interpret-token} as well as more specialized protocols some of
+which will be discussed in subsequent sections.  As demonstrated in
+Listing~\ref{lis:customization}, these generic functions allow clients
+to customize the basic behavior of the reader.
+
+\todo{figure}
 
 \subsubsection{Reader state protocol}
 \label{sec:reader-state-protocol}
@@ -171,15 +245,21 @@ can be used by client code to create specific methods.
 The \cl{} standard specifies the reader macros
 $\texttt{\#}N\texttt{=}expression$ and $\texttt{\#}N\texttt{\#}$ for
 defining and referencing labeled objects respectively.  We call $N$
-the \emph{label}.  \eclector{} processes these definitions and
-references for each label $N$ according to a state machine that is
-illustrated in Figure~\ref{fig:labeled-objects}.
+the \emph{label}.  The \cl{} standard describes the processing of
+these labeled objects in terms of the observable results and some
+constraints.  \eclector{} implements this description by processing
+definitions and references for each label $N$ according to the state
+machine that is illustrated in Figure~\ref{fig:labeled-objects} and a
+corresponding protocol of first-class objects and operations
+(discussed below).
+
 \begin{figure*}
   \centering
   \includegraphics[width=\linewidth]{figures/labeled-object-states.png}
   \caption{Labeled object states}
   \label{fig:labeled-objects}
 \end{figure*}
+
 Each label starts out as \emph{undefined} and potentially transitions
 to \emph{defined}, \emph{circular}, \emph{referenced} and
 \emph{final}.
@@ -277,7 +357,7 @@ relevant in practice but because there is algorithmic innovation in
 \eclector{} in this area and we even have an edge over \sbcl{} for
 certain cases.
 
-% LocalWords:  uninterned
+% LocalWords:  uninterned readtable readtables customizable
 
 %%% Local Variables:
 %%% mode: LaTeX
