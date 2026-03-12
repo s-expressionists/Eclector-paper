@@ -30,39 +30,40 @@ be useful are:
   different way.
 \item[Parsing an editor buffer] As a concrete example of this
   use-case, consider the (bad) \cl{} program in
-  Listing~\ref{listing:bad-program} which a user might type into an
-  editor or integrated development environment (IDE) for \cl{} code.
-  The IDE could support the user with accurate syntax
+  Listing~\ref{lis:bad-program} which a user might type into an editor
+  or integrated development environment (IDE) for \cl{} code.  The IDE
+  could support the user with accurate syntax
   highlighting\footnote{For example, the second occurrence of
     \texttt{defun} should be highlighted as a parameter or variable,
-    not as \texttt{cl:defun} operator.  Ironically, the \LaTeX{}
+    not as the \texttt{cl:defun} operator.  Ironically, the \LaTeX{}
     package used for typesetting the listing gets this wrong.} and
-  notify them about the syntactic errors\footnote{Such as three
-    package markers in \texttt{cl:::nth}, a digit using an invalid
-    radix in \texttt{\#b0102} and a missing closing parenthesis at the
-    end of the program}, semantic errors\footnote{Only one branch of
-    the nested read-time conditional \texttt{\#+sbcl \#b0102 \#-sbcl
-      \#b0100} is reachable} and style issues\footnote{Toplevel
-    comments are specified to use three semicolons.  Closing
-    parentheses should not be placed on separate lines.}.
+  notify them about the syntactic errors\footnote{Examples of
+    syntactic errors are three package markers in \texttt{cl:::nth}, a
+    digit using an invalid radix in \texttt{\#b0102} and a missing
+    closing parenthesis at the end of the program.}, semantic
+  errors\footnote{Only one branch of the nested read-time conditional
+    \texttt{\#+sbcl \#b0102 \#-sbcl \#b0100} is reachable.} and style
+  issues\footnote{Toplevel comments are specified to use three
+    semicolons.  Closing parentheses should not be placed on separate
+    lines.}.
 
   Existing editors for \cl{} code do not provide these features to the
-  full extend because they cannot analyze the contents of their editor
-  buffers faithfully enough.  Many assumptions are made that may not
-  hold true.  For example, reader macros are not taken into account,
-  and the analysis does not permit the editor to determine the role of
-  symbols in the buffer.
+  full extent because they cannot analyze the buffer contents
+  faithfully enough.  Many assumptions are made that may not hold
+  true.  For example, reader macros are not taken into account, and
+  the analysis does not permit the editor to accurately determine the
+  role of symbols in the buffer.
 
   The only technique that can faithfully analyze a buffer of \cl{}
   code is the \cl{} reader.  But then, again, it is undesirable for
   the reader to intern symbols in any package at all, and the analysis
   must not fail for errors such as incorrect package names used as
   package prefixes, incomplete code, or syntax errors in tokens.
-  Obviously, an extended \cl{} reader that is configurable and can
+  Consequently, an extended \cl{} reader that is configurable and can
   recover from errors is necessary for this approach but not
-  sufficient on its own.  Instead, the such a reader has to collect
-  enough information about errors and the input text for subsequent
-  stages to process.
+  sufficient on its own.  Instead, such a reader has to collect enough
+  information about errors and the input text for subsequent stages to
+  process.
 \end{description}
 
 \begin{listing}
@@ -76,7 +77,7 @@ be useful are:
   \end{minted}
   \caption{A \cl{} program with multiple errors and style issues that
     a user could type into an editor buffer.}
-  \label{listing:bad-program}
+  \label{lis:bad-program}
 \end{listing}
 
 \noindent
