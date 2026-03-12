@@ -1,19 +1,21 @@
 \section{Existing \cl{} readers}
 
+\todo{we mention scheme (should we even?) near the end so the title is not accurate}
 In this section, we give an overview of the native readers of some
-common free or open-source existing \cl{} implementations.  We analyze
-each one with respect to its behavior in error situations, and with
-respect to features that can be essential in various use cases,
-including cases where the reader is not used as the first phase of a
-\texttt{read-eval-print} loop.
-
-We list the responses to invalid inputs not as a remark on the quality
-of the respective implementation but instead to evaluate whether those
+common free or open-source existing \cl{} implementations.  We focus
+on behavior in error situations and features like tracking of source
+positions that can be essential in various use cases, including cases
+where the reader is not used as the first phase of a
+\texttt{read-eval-print} loop such as processing the contents of
+editor buffers as illustrated in Listing~\ref{lis:bad-program}.  We
+list the responses to invalid inputs not as a remark on the quality of
+the respective implementation but instead to evaluate whether those
 native readers could be used to read (a heuristic approximation of)
 invalid inputs as is required in certain use-cases.
 
 \subsection{Embeddable Common Lisp (\ecl{})}
 
+\todo{mention ecl version}
 \ecl{} is implemented as a core written in \clanguage{}.  It is built by
 first compiling this core and then adding code written in \cl{} by
 loading it into the system resulting from the compilation of the core.
@@ -32,7 +34,7 @@ When an attempt is made to read an incorrect token in the form of a
 malformed symbol with three package markers, again an error of type
 \texttt{simple-error} is signaled, and the message is cryptic.  For
 example, an attempt to read the malformed symbol \texttt{cl:::car},
-the error message is ``There is no package with the name
+results in the error message ``There is no package with the name
 \texttt{CL:::C}''.
 
 One might think that the reason \ecl{} proposes so few restarts is
@@ -47,6 +49,7 @@ reader need not be handled.
 
 \subsection{Steel-Bank Common Lisp (\sbcl{})}
 
+\todo{mention ecl version}
 The \sbcl{} reader is written in \cl{}, without the use of the specific
 features of the \cl{} Object System (\clos{}) such as generic
 functions and standard classes.
@@ -174,5 +177,11 @@ As far as we can tell, syntax objects allow and actually are used for
 reading \emph{forms} with source information but don't seem to support
 producing parse results for \emph{skipped material} like comments.
 
+\todo{verify?}
 Possible Limitation: When trying to read something circular in Racket it says
 \texttt{read-syntax: `\#...\#` forms not enabled for `read-syntax`}
+
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: "eclector"
+%%% End:
