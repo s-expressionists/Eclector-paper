@@ -19,10 +19,10 @@ all : $(NAME).pdf
 	./codify $<
 
 $(NAME).pdf: $(TEXFILES) $(PDF) $(PDF_T) $(VERBATIM) $(CODEFILES) $(BIBFILES)
-	pdflatex $<
+	pdflatex -shell-escape $<
 	bibtex $(NAME)
-	pdflatex $<
-	pdflatex $<
+	pdflatex -shell-escape $<
+	pdflatex -shell-escape $<
 
 view: $(NAME).pdf
 	xpdf $<
