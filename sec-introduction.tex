@@ -3,15 +3,16 @@
 The \cl{} \texttt{read} function, usually referred to as the \cl{}
 \emph{reader}, is an obviously essential part of any \cl{}
 implementation.  It is normally used as the first step of the
-\texttt{read-eval-print} loop to read forms that are then passed to
-the evaluator.  Furthermore, when a \cl{} system is built (or
-\emph{bootstrapped}), the reader is needed early since code has to be
-read before it can be compiled or evaluated.  But reading native code
-for compilation or evaluation is not the only use for a reader.  Some
-situations where a reader might be useful are:
+\texttt{read-eval-print} loop or in the file compiler, in both cases
+reading forms that are then passed to the evaluator.  Furthermore,
+when a \cl{} system is built (or \emph{bootstrapped}), the reader is
+needed early since code has to be read before it can be compiled or
+evaluated.  But reading native code for compilation or evaluation is
+not the only use for a reader.  Some situations where a reader might
+be useful are:
 
-\begin{itemize}
-\item Cross compilation.  When a \cl{} system (the \emph{target}) is
+\begin{description}
+\item[Cross compilation] When a \cl{} system (the \emph{target}) is
   built from source, a common technique is to compile the source on an
   existing \cl{} system (the \emph{host}).  The host system can be
   (perhaps a different version of) the same implementation as the
@@ -23,18 +24,59 @@ situations where a reader might be useful are:
   packages.  The main disadvantage of this approach is that all source
   code that is part of the target system must be specific to that
   system.  External libraries are excluded if such libraries involve
-  packages that may clash with some host packages.
-\item Parsing an editor buffer.  Existing editors for \cl{} code do
-  not faithfully analyze the contents of their editor buffers.  Many
-  assumptions are made that may not hold true.  For example, reader
-  macros are not taken into account, and the analysis does not permit
-  the editor to determine the role of symbols in the buffer.  The only
-  technique that can faithfully analyze a buffer of \cl{} code is the
-  \cl{} reader.  But then, again, it is undesirable for the reader to
-  intern symbols in any package at all, and the analysis must not fail
-  for errors such as incorrect package names used as package prefixes,
-  incomplete code, or syntax errors in tokens.
-\end{itemize}
+  packages that may clash with some host packages.  With a highly
+  configurable reader, cross compilation can be addressed in a
+  different way.
+\item[Parsing an editor buffer] As a concrete example of this
+  use-case, consider the (bad) \cl{} program in
+  Listing~\ref{listing:bad-program} which a user might type into an
+  editor or integrated development environment (IDE) for \cl{} code.
+  The IDE could support the user with accurate syntax
+  highlighting\footnote{For example, the second occurrence of
+    \texttt{defun} should be highlighted as a parameter or variable,
+    not as \texttt{cl:defun} operator.  Ironically, the \LaTeX{}
+    package used for typesetting the listing gets this wrong.} and
+  notify them about the syntactic errors\footnote{Such as three
+    package markers in \texttt{cl:::nth}, a digit using an invalid
+    radix in \texttt{\#b0102} and a missing closing parenthesis at the
+    end of the program}, semantic errors\footnote{Only one branch of
+    the nested read-time conditional \texttt{\#+sbcl \#b0102 \#-sbcl
+      \#b0100} is reachable} and style issues\footnote{Toplevel
+    comments are specified to use three semicolons.  Closing
+    parentheses should not be placed on separate lines.}.
+
+  Existing editors for \cl{} code do not provide these features to the
+  full extend because they cannot analyze the contents of their editor
+  buffers faithfully enough.  Many assumptions are made that may not
+  hold true.  For example, reader macros are not taken into account,
+  and the analysis does not permit the editor to determine the role of
+  symbols in the buffer.
+
+  The only technique that can faithfully analyze a buffer of \cl{}
+  code is the \cl{} reader.  But then, again, it is undesirable for
+  the reader to intern symbols in any package at all, and the analysis
+  must not fail for errors such as incorrect package names used as
+  package prefixes, incomplete code, or syntax errors in tokens.
+  Obviously, an extended \cl{} reader that is configurable and can
+  recover from errors is necessary for this approach but not
+  sufficient on its own.  Instead, the such a reader has to collect
+  enough information about errors and the input text for subsequent
+  stages to process.
+\end{description}
+
+\begin{listing}
+  \begin{minted}[fontsize=\small]{lisp}
+    ;; Comment
+    (defun get-name (defun)
+      #+sbcl (cl:::nth
+        #+sbcl #b0102 #-sbcl #b0100
+        defun
+      )
+  \end{minted}
+  \caption{A \cl{} program with multiple errors and style issues that
+    a user could type into an editor buffer.}
+  \label{listing:bad-program}
+\end{listing}
 
 \noindent
 In this paper, we describe \eclector{}; a \cl{} reader that is
@@ -42,3 +84,8 @@ independent of any particular \cl{} implementation.  Furthermore,
 \eclector{} is highly configurable, so that it may be configured not
 to intern symbols in any host package, and so that syntax errors can
 be avoided or recovered from.
+
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: "eclector"
+%%% End:
