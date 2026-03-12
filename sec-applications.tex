@@ -1,21 +1,28 @@
 \section{Applications}
 \label{sec-applications}
 
-\subsection{Intrinsic use: using \eclector{} as the reader of a \cl{} implementation}
+In this section, we describe use cases that benefit from features of
+\eclector{} like extensibility, source position tracking and error
+recovery.  We also list applications of \eclector{} in existing \cl{}
+projects that are concrete examples of these use cases.
+
+\subsection{Use cases}
+
+\subsubsection{Intrinsic use: using \eclector{} as the reader of a \cl{} implementation}
 
 The most obvious application for \eclector{} is as a native reader of
 some \cl{} implementation.  Currently, \eclector{} is used this way
-only in Clasp, but it will also be used in the SICL \cl{}
+only in Clasp, but it will also be used in the \sicl{} \cl{}
 implementation, once it is finished.
 
-Currently, SICL uses \eclector{} extrinsically during bootstrapping,
-in order to read forms to be evaluated in a first-class global
-environment \cite{Strandh:2015:ELS:Environments}.  Since the host
-global environment must not be affected as a result of reading these
-forms, we take full advantage of the ability to configure \eclector{}
-to avoid such side effects.
+Currently, \sicl{} uses \eclector{} extrinsically during
+bootstrapping, in order to read forms to be evaluated in a first-class
+global environment \cite{Strandh:2015:ELS:Environments}.  Since the
+host global environment must not be affected as a result of reading
+these forms, we take full advantage of the ability to configure
+\eclector{} to avoid such side effects.
 
-\subsection{Alternate syntax beyond readtable and reader macros}
+\subsubsection{Alternate syntax beyond readtable and reader macros}
 
 https://github.com/pve1/eclector-access/
 
@@ -23,39 +30,15 @@ Coalton language: https://github.com/coalton-lang/coalton/blob/main/src/parser/r
 
 maybe Hayley's language
 
-\subsection{Reader part of sandboxed evaluation}
+\subsubsection{Reader part of sandboxed evaluation}
 
-\subsection{Syntax highlighting}
+The goal of \emph{sandboxed evaluation} is to (read and) evaluate untrusted code, for
+example code received from possibly adversarial third parties, in way
+that makes it impossible to affect the surrounding environment
+except in limited, explicitly permitted ways.  examples: errors leading to denial of service, read-time eval, interning,
+consuming resources such as stack space, heap space, processing
 
-For documentation
-
-Important features
-
-\begin{itemize}
-\item No side effects (Interning, package system changes, code evaluation)
-\item Parse results, skipped material, ``invisible'' objects
-\item Error recovery
-\end{itemize}
-
-\subsection{Incremental parsing for editor-like applications}
-\label{sec:incremental-parsing}
-
-\eclector{}'s ability to recover from errors, represent the state of
-the reader as a first class object, produce parse results for
-expressions as well as skipped material with source information and
-operate without side-effects enable incremental parsing.  Incremental
-parsing is useful in interactive, editor-like applications like REPLs,
-Listeners, IDEs, LSP\footnote{Language Server Protocol}-servers and of
-course source code editors.
-
-\begin{itemize}
-\item No side effects (Interning, package system changes, code evaluation)
-\item Parse results, skipped material, ``invisible'' objects
-\item Reader state protocol
-\item Error recovery
-\end{itemize}
-
-\subsection{Static Analysis}
+\subsubsection{Static Analysis}
 
 For some applications doing \emph{static analysis} of \cl{} code, it
 is not possible, or at least undesirable, to use the native reader.  A
@@ -114,10 +97,45 @@ Limitations
 \item Read-time evaluation
 \end{itemize}
 
+\subsubsection{Syntax highlighting}
+
+\todo{Screenshot}
+
+For documentation
+
+Important features
+
+\begin{itemize}
+\item No side effects (Interning, package system changes, code evaluation)
+\item Parse results, skipped material, ``invisible'' objects
+\item Error recovery
+\end{itemize}
+
+\subsubsection{Incremental parsing for editor-like applications}
+\label{sec:incremental-parsing}
+
+\eclector{}'s ability to recover from errors, represent the state of
+the reader as a first class object, produce parse results for
+expressions as well as skipped material with source information and
+operate without side-effects enable incremental parsing.  Incremental
+parsing is useful in interactive, editor-like applications like REPLs,
+Listeners, IDEs, LSP\footnote{Language Server Protocol}-servers and of
+course source code editors.
+
+\begin{itemize}
+\item No side effects (Interning, package system changes, code evaluation)
+\item Parse results, skipped material, ``invisible'' objects
+\item Reader state protocol
+\item Error recovery
+\end{itemize}
+
+
+\subsection{Projects using \eclector{}}
+
 \subsubsection{formgrep}
 
 The library \texttt{formgrep}%
-\footnote{https://github.com/death/formgrep}
+\footnote{\url{https://github.com/death/formgrep}}
 provides functionalities similar to those of the \unix{} \texttt{grep}
 utility, except that it works on S-expressions rather than text.  This
 library takes a collection of files and a regular expression as
@@ -128,10 +146,11 @@ that \eclector{} recognizes to determine whether there is a match.  If
 so, it accumulates the token in a list of matches that is ultimately
 returned.  For reader conditionals, \texttt{formgrep} configures
 \eclector{} to always read the guarded expression regardless of the
-condition.  \texttt{formgrep} uses the idiom \texttt{(handler-bind
-  ((error \#'eclector.base:recover)) \dots)} to deal with parts of the
-input that are either invalid or cannot be read with the employed
-\eclector{} configuration.
+condition so that no part of the code is skipped and thus excluded
+from the search.  \texttt{formgrep} uses the idiom
+\texttt{(handler-bind ((error \#'eclector.base:recover)) \dots (read \dots) \dots)}
+to deal with parts of the input that are either invalid or cannot be
+read with the employed \eclector{} configuration.
 
 % \subsubsection{rewrite-cl}
 
@@ -151,18 +170,18 @@ input that are either invalid or cannot be read with the employed
 \subsubsection{mallet}
 
 The purpose of the library \texttt{mallet}%
-\footnote{https://github.com/fukamachi/mallet} which was written by
-Eitaro Fukamachi is to read \cl{} code and analyze it according to
+\footnote{\url{https://github.com/fukamachi/mallet}} which was written
+by Eitaro Fukamachi is to read \cl{} code and analyze it according to
 configurable rules in order to detect mistakes and deviations from a
 desired coding style.  The library configures \eclector{} so that it
 behaves differently compared to the standard reader in multiple ways:
 
 \begin{enumerate}
 \item \eclector{} is configured to produce parse results with source
-  information
+  information.
 \item \texttt{mallet} recovers from many errors by specifically
   handling a number of the specialized conditions which \eclector{}
-  signals
+  signals.
 \item \texttt{mallet} handles elements of the code that cannot be read
   in the usual way without affecting the Lisp image such as symbols
   that would require interning or read-time evaluation by configuring
@@ -171,13 +190,22 @@ behaves differently compared to the standard reader in multiple ways:
 
 \subsubsection{Second Climacs editor}
 
+\todo{capitalization of section}
 As mentioned in \refSec{sec-eclector}, \eclector{} was designed from
 the start to be able to parse the contents of an editor buffer.  We
-use the ability to do incremental parsing (described in
-\refSec{sec:incremental-parsing}) in the Second Climacs text editor,
-still under development.  The objective is to have an editor
+use the ability to do incremental parsing in the Second Climacs text
+editor, still under development.  The objective is to have an editor
 specifically for writing \cl{} code that can analyze the buffer
-contents more faithfully that existing editors can do.
+contents more faithfully on the level of character syntax,
+s-expression syntax and semantics than existing editors can do.  The
+character syntax is handled by a combination of \eclector{} and the
+incrementalist library%
+\footnote{\url{http://github.com/s-expressionists/incrementalist}}
+which uses an extension of the incremental parsing described in
+\refSec{sec:incremental-parsing}.  The s-expression syntax is handled
+by a separate library that accepts the concrete syntax trees produced
+by \eclector{} and applies grammar rules which describe the \cl{}
+operators.
 
 \subsubsection{Other projects which use \eclector{}}
 
