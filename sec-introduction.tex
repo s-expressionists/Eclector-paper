@@ -67,17 +67,17 @@ be useful are:
 \end{description}
 
 \begin{listing}
-  \begin{minted}[fontsize=\small]{lisp}
-    ;; Comment
-    (defun get-name (defun)
-      #+sbcl (cl:::nth
-        #+sbcl #b0102 #-sbcl #b0100
-        defun
-      )
-  \end{minted}
-  \caption{A \cl{} program with multiple errors and style issues that
-    a user could type into an editor buffer.}
-  \label{lis:bad-program}
+\begin{minted}[fontsize=\small,linenos]{lisp}
+;; Comment
+(defun get-name (defun)
+  #+sbcl (cl:::nth
+    #+sbcl #b0102 #-sbcl #b0100
+    defun
+  )
+\end{minted}
+\caption{A \cl{} program with multiple errors and style issues that a
+  user could type into an editor buffer.}
+\label{lis:bad-program}
 \end{listing}
 
 \noindent
