@@ -197,12 +197,12 @@ use the ability to do incremental parsing in the Second Climacs text
 editor, still under development.  The objective is to have an editor
 specifically for writing \cl{} code that can analyze the buffer
 contents more faithfully on the level of character syntax,
-s-expression syntax and semantics than existing editors can do.  The
+S-expression syntax and semantics than existing editors can do.  The
 character syntax is handled by a combination of \eclector{} and the
 incrementalist library%
 \footnote{\url{http://github.com/s-expressionists/incrementalist}}
 which uses an extension of the incremental parsing described in
-\refSec{sec:incremental-parsing}.  The s-expression syntax is handled
+\refSec{sec:incremental-parsing}.  The S-expression syntax is handled
 by a separate library that accepts the concrete syntax trees produced
 by \eclector{} and applies grammar rules which describe the \cl{}
 operators.

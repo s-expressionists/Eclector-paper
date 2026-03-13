@@ -38,7 +38,7 @@ broader in scope:
   where possible
   \todo{reference a section that talks about this in detail?}
 \item \eclector{} should be robust against unusual inputs such as data
-  serialized as s-expressions.  More concretely, deeply nested or
+  serialized as S-expressions.  More concretely, deeply nested or
   circular expressions should not cause \eclector{} to exhaust the
   available stack space.
   \todo{should we instead talk about the depth of nested function calls to avoid the implementation detail?}
@@ -295,7 +295,7 @@ While \eclector{} will likely be used for reading source code in most
 applications, the possibility of using \eclector{}
 \emph{intrinsically} requires it to handle any kind of input the user
 of a \cl{} implementation could apply \texttt{read} to.  As one
-example, for data serialized as s-expressions, the lengths of lists
+example, for data serialized as S-expressions, the lengths of lists
 and vectors, the nesting depths of expression, the frequency of
 circular structure and the overall size of the input can be vastly
 different from source code.
