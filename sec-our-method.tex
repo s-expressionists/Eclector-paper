@@ -243,15 +243,15 @@ can be used by client code to create specific methods.
 \label{sec:labeled-objects}
 
 The \cl{} standard specifies the reader macros
-$\texttt{\#}N\texttt{=}expression$ and $\texttt{\#}N\texttt{\#}$ for
-defining and referencing labeled objects respectively.  We call $N$
-the \emph{label}.  The \cl{} standard describes the processing of
-these labeled objects in terms of the observable results and some
-constraints.  \eclector{} implements this description by processing
-definitions and references for each label $N$ according to the state
-machine that is illustrated in Figure~\ref{fig:labeled-objects} and a
-corresponding protocol of first-class objects and operations
-(discussed below).
+\mintinline[escapeinside=||]{lisp}{|\#|N|=|expression} and
+\mintinline[escapeinside=||]{lisp}{|\#|N|\#|} for defining and referencing
+labeled objects respectively.  We call $N$ the \emph{label}.  The
+\cl{} standard describes the processing of these labeled objects in
+terms of the observable results and some constraints.  \eclector{}
+implements this description by processing definitions and references
+for each label $N$ according to the state machine that is illustrated
+in Figure~\ref{fig:labeled-objects} and a corresponding protocol of
+first-class objects and operations (discussed below).
 
 \begin{figure*}
   \centering
@@ -273,19 +273,20 @@ The second part of handling labeled objects is processing the objects
 produced by the reader before they are returned to the caller such
 that labeled object references%
 \footnote{This delayed substitution is required only in case of
-  circular structure.  In cases like \texttt{(\#1=:a \#1\#)}, the
-  referenced object can be substituted immediately.}
-are replaced by the respective referenced object.  We refer to this
-process as \emph{fixup}.  \eclector{} uses a \emph{fixup graph} data
-structure to manage the algorithmic complexity of pathological inputs
-\todo{should reference some subsection of the performance section for a concrete example?}
-as well as another protocol to make the fixup processes extensible and
-customizable.  In particular, clients can add support for fixing up
-objects such as hash-tables that don't have a literal syntax in the
-standard or implementation-specific objects.  The fixup protocol
-consists of generic functions for controlling the traversal of the
-fixup graph like \texttt{walk-fixup-tree} as well as functions for
-controlling the substitution in individual objects such as
+  circular structure.  In cases like
+  \mintinline[escapeinside=||]{lisp}{(|\#|1=:a |\#|1|\#|)}, the
+  referenced object can be substituted immediately.}  are replaced by
+the respective referenced object.  We refer to this process as
+\emph{fixup}.  \eclector{} uses a \emph{fixup graph} data structure to
+manage the algorithmic complexity of pathological inputs \todo{should
+  reference some subsection of the performance section for a concrete
+  example?}  as well as another protocol to make the fixup processes
+extensible and customizable.  In particular, clients can add support
+for fixing up objects such as hash-tables that don't have a literal
+syntax in the standard or implementation-specific objects.  The fixup
+protocol consists of generic functions for controlling the traversal
+of the fixup graph like \texttt{walk-fixup-tree} as well as functions
+for controlling the substitution in individual objects such as
 \texttt{fixup} and \texttt{new-value-for-fixup}.
 
 \subsection{Robustness and Unusual Inputs}

@@ -8,7 +8,8 @@ stack overflow after almost a minute (on a reasonably recent machine)
 of processing time, whereas \eclector{} succeeds in a fraction of a
 second.
 
-\begin{verbatim}
+\begin{listing}[H]
+\begin{minted}[fontsize=\small,linenos]{lisp}
 (let ((string (with-output-to-string (stream)
                 (format stream "(#1=1~%")
                 (loop :for i :from 2  :below 10000
@@ -17,8 +18,14 @@ second.
                                   i 35 (1- i) 35))
                 (format stream ") ~%"))))
   (read-from-string string))
-\end{verbatim}
+\end{minted}
+\end{listing}
 
 \noindent
 The \ecl{} reader succeeds in around one second.  The \ccl{} reader
 succeeds, and is about as fast as \eclector{}.
+
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: "eclector"
+%%% End:
