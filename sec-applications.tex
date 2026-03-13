@@ -148,7 +148,7 @@ returned.  For reader conditionals, \texttt{formgrep} configures
 \eclector{} to always read the guarded expression regardless of the
 condition so that no part of the code is skipped and thus excluded
 from the search.  \texttt{formgrep} uses the idiom
-\mintinline[fontsize=\small,escapeinside=||]{lisp}{(handler-bind ((error |\#|'eclector.base:recover)) |\dots| (read |\dots|) |\dots|)}
+\texttt{(handler-bind ((error \#'eclector.base:recover)) \dots (read \dots) \dots)}
 to deal with parts of the input that are either invalid or cannot be
 read with the employed \eclector{} configuration.
 

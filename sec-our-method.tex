@@ -163,7 +163,7 @@ function.  Listing~\ref{lis:customization} shows a very simple example
 of this customization technique.
 
 \begin{listing}
-\begin{minted}[fontsize=\small,linenos,escapeinside=||]{lisp}
+\begin{minted}[fontsize=\small,linenos]{lisp}
 (defclass my-client () ())
 (defmethod eclector.reader:interpret-token
     ((client my-client) (stream t) (token t) (escape-ranges t))
@@ -171,7 +171,7 @@ of this customization technique.
     (if (typep result 'number) (- result) result)))
 (let ((eclector.base:*client* (make-instance 'my-client)))
   (eclector.reader:read-from-string "5"))
-|$\Rightarrow$| -5, 1
+=> -5, 1
 \end{minted}
 \caption{A simple customization that makes the reader negate any
   number tokens before returning them to the caller.}
@@ -243,8 +243,8 @@ can be used by client code to create specific methods.
 \label{sec:labeled-objects}
 
 The \cl{} standard specifies the reader macros
-\mintinline[escapeinside=||]{lisp}{|\#|N|=|expression} and
-\mintinline[escapeinside=||]{lisp}{|\#|N|\#|} for defining and referencing
+\texttt{\#N=expression} and
+\texttt{\#N\#} for defining and referencing
 labeled objects respectively.  We call $N$ the \emph{label}.  The
 \cl{} standard describes the processing of these labeled objects in
 terms of the observable results and some constraints.  \eclector{}
@@ -274,7 +274,7 @@ produced by the reader before they are returned to the caller such
 that labeled object references%
 \footnote{This delayed substitution is required only in case of
   circular structure.  In cases like
-  \mintinline[escapeinside=||]{lisp}{(|\#|1=:a |\#|1|\#|)}, the
+  \texttt{(\#1=:a \#1\#)}, the
   referenced object can be substituted immediately.}  are replaced by
 the respective referenced object.  We refer to this process as
 \emph{fixup}.  \eclector{} uses a \emph{fixup graph} data structure to

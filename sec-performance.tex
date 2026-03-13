@@ -15,18 +15,18 @@ real-world open source libraries.  Code similar to the following was
 used to perform the benchmarking:
 
 \begin{listing}[H]
-\begin{minted}[fontsize=\small,linenos,escapeinside=||]{lisp}
+\begin{minted}[fontsize=\small,linenos]{lisp}
 (let ((content (alexandria:read-file-into-string filename)))
   #+sbcl (sb-ext:gc :full t)
   #+ccl  (gc)
   (the-cost-of-nothing:benchmark
    (with-input-from-string (stream content)
-     (loop for form = (|\guillemotleft|read|\guillemotright| stream nil stream)
+     (loop for form = (<<read>> stream nil stream)
            until (eq form stream)))))
 \end{minted}
 \end{listing}
 
-where \texttt{\guillemotleft{}read\guillemotright{}} is either
+where \texttt{<<read>>} is either
 \texttt{cl:read}, \texttt{eclector.reader:read} or
 \texttt{eclector.concrete-syntax-tree:read} depending on the
 benchmark.
