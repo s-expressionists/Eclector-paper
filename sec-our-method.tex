@@ -171,7 +171,7 @@ of this customization technique.
     (if (typep result 'number) (- result) result)))
 (let ((eclector.base:*client* (make-instance 'my-client)))
   (eclector.reader:read-from-string "5"))
-|\Rightarrow| -5, 1
+|$\Rightarrow$| -5, 1
 \end{minted}
 \caption{A simple customization that makes the reader negate any
   number tokens before returning them to the caller.}
