@@ -256,8 +256,22 @@ first-class objects and operations (discussed below).
 
 \begin{figure*}
   \centering
-  \includegraphics[width=\linewidth]{figures/labeled-object-states.png}
-  \caption{Labeled object states}
+  \includegraphics[align=t,width=.60\linewidth]{figures/labeled-object-states.pdf}
+  \hspace{-7em}
+  \includegraphics[align=t,width=.50\linewidth]{figures/labeled-object-api-states.pdf}
+  \caption{Labeled object state machine.  The boxes with rounded edges
+    depicted the possible state of a label $N$.  A Lisp object
+    associated with the label in a given state is shown in the lower
+    compartment.  The edges represent state transitions that occur
+    when input which resembles the label next to the edge is consumed.
+    Note that the edge labels show all input consumed so far for the
+    respective transition, not the new input compared to the origin
+    state.  The state machine for each label starts in the
+    \texttt{undefined} state before any input has been consumed and
+    terminates at the end of input (since new references could appear
+    at any point until then). \emph{Left}: full set of states with
+    associated inputs. \emph{Right}: reduced set of states used in
+    protocol with corresponding protocol functions.}
   \label{fig:labeled-objects}
 \end{figure*}
 

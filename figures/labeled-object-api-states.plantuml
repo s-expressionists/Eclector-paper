@@ -1,0 +1,28 @@
+@startuml
+hide members
+hide attributes
+hide methods
+
+state undefined
+state defined
+state circular
+state final
+final: object
+state "final (circular)" as final2
+final2: object
+
+[*]       ->  undefined
+undefined ->  defined   : note-labeled-object
+undefined --> [*]       : end-of-input
+defined   --> final     : finalize-labeled-object
+final     ->  final     : {find,reference}-labeled-object
+final     --> [*]       : end-of-input
+
+defined   ->  circular  : {find,reference}-labeled-object
+circular  ->  circular  : {find,reference}-labeled-object
+circular  --> final2    : finalize-labeled-object
+final2    ->  final2    : {find,reference}-labeled-object
+final2    --> [*]       : end-of-input
+
+defined   ->  undefined : forget-labeled-object
+@enduml
