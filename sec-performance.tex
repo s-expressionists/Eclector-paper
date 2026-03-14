@@ -35,25 +35,15 @@ benchmark.
 \todo{describe hardware}
 \todo{more lisps?}
 
-We performed the benchmark described above for the following \cl{}
-implementations:
-
-\todo{optimization settings}
-\begin{tabular}{ll}
-  \textbf{Implementation} & \textbf{Version}\\
-  \sbcl{}                 & 2.6.0.debian\\
-  Clozure Common Lisp     & 1.13 (v1.13-21-gda7138ef) LinuxX8664\\
-\end{tabular}
-
-Unfortunately, results for ECL are missing since the ECL version
-packaged for the operating system of the authors has a bug that
-prevents it form executing \eclector{}%
-\footnote{\url{https://gitlab.com/embeddable-common-lisp/ecl/-/issues/802,
-    issue 802}}.  Building ECL from source failed due to issues with
-the default C compiler on the author's system.
-
-We arbitrarily selected the following large \cl{} files as inputs for
-the benchmark runs:
+We performed the benchmark described above for \sbcl{} and \ccl{} with
+default optimization settings\footnote{Unfortunately, results for ECL
+  are missing since the ECL version packaged for the operating system
+  of the authors has a
+  \href{https://gitlab.com/embeddable-common-lisp/ecl/-/issues/802}{bug}
+  that prevents it form executing \eclector{}.  Building ECL from
+  source failed due to issues with the default C compiler on the
+  author's system.}.  We arbitrarily selected the following large
+\cl{} files as inputs for the benchmark runs:
 
 \begin{tabular}{llr}
   \textbf{File}   & \textbf{Library}           & \textbf{Lines of Code}\\

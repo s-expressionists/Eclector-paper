@@ -13,9 +13,20 @@ the respective implementation but instead to evaluate whether those
 native readers could be used to read (a heuristic approximation of)
 invalid inputs as is required in certain use-cases.
 
+For the behavior reported here as well as for the benchmarks described
+in \refSec{sec-performance}, the following implementations and
+versions were used:
+
+\noindent%
+\begin{tabular}{ll}
+  \textbf{Implementation}          & \textbf{Version}\\
+  Embeddable Common Lisp (\ecl{})  & ECL 24.5.10\\
+  Steel-Bank Common Lisp (\sbcl{}) & 2.6.0.debian\\
+  Clozure Common Lisp (\ccl{})     & 1.13 (v1.13-21-gda7138ef) LinuxX8664
+\end{tabular}
+
 \subsection{Embeddable Common Lisp (\ecl{})}
 
-\todo{mention ecl version}
 \ecl{} is implemented as a core written in \clanguage{}.  It is built by
 first compiling this core and then adding code written in \cl{} by
 loading it into the system resulting from the compilation of the core.
@@ -49,7 +60,6 @@ reader need not be handled.
 
 \subsection{Steel-Bank Common Lisp (\sbcl{})}
 
-\todo{mention ecl version}
 The \sbcl{} reader is written in \cl{}, without the use of the specific
 features of the \cl{} Object System (\clos{}) such as generic
 functions and standard classes.
