@@ -1,6 +1,5 @@
 \section{Existing \cl{} readers}
 
-\todo{we mention scheme (should we even?) near the end so the title is not accurate}
 In this section, we give an overview of the native readers of some
 common free or open-source existing \cl{} implementations.  We focus
 on behavior in error situations and features like tracking of source
@@ -169,27 +168,27 @@ the initial \cplusplus{} reader is no longer needed.  For all these
 reasons, we do not review the \cplusplus{} reader of Clasp, and
 Eclector is fully described in \refSec{sec-eclector}.
 
-\subsection{Scheme}
+%% \subsection{Scheme}
 
-Many implementations of the \scheme{} language support the concept of
-\emph{syntax objects} which are \scheme{} datums annotated with
-additional information such as scope information for identifiers or
-source information for forms read from files.  While the original
-motivation for syntax objects seems to have been hygienic macros,
-attaching source information to all datums\footnote{not just lists,
-  vectors, etc.} is clearly useful as well.
+%% Many implementations of the \scheme{} language support the concept of
+%% \emph{syntax objects} which are \scheme{} datums annotated with
+%% additional information such as scope information for identifiers or
+%% source information for forms read from files.  While the original
+%% motivation for syntax objects seems to have been hygienic macros,
+%% attaching source information to all datums\footnote{not just lists,
+%%   vectors, etc.} is clearly useful as well.
 
 
-See for instance \texttt{read-syntax} in the Guile manual.%
-\footnote{https://www.gnu.org/software/guile/manual/html\_node/Annotated-Scheme-Read.html}
+%% See for instance \texttt{read-syntax} in the Guile manual.%
+%% \footnote{https://www.gnu.org/software/guile/manual/html\_node/Annotated-Scheme-Read.html}
 
-As far as we can tell, syntax objects allow and actually are used for
-reading \emph{forms} with source information but don't seem to support
-producing parse results for \emph{skipped material} like comments.
+%% As far as we can tell, syntax objects allow and actually are used for
+%% reading \emph{forms} with source information but don't seem to support
+%% producing parse results for \emph{skipped material} like comments.
 
-\todo{verify?}
-Possible Limitation: When trying to read something circular in Racket it says
-\texttt{read-syntax: `\#...\#` forms not enabled for `read-syntax`}
+%% \todo{verify?}
+%% Possible Limitation: When trying to read something circular in Racket it says
+%% \texttt{read-syntax: `\#...\#` forms not enabled for `read-syntax`}
 
 %%% Local Variables:
 %%% mode: LaTeX
