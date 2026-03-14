@@ -2,15 +2,17 @@
 \label{sec-performance}
 
 \todo{capitalization section vs Listing}
-As stated in \refsec{sec-eclector}, one of the goals for \eclector{}
+As stated in \refSec{sec-eclector}, one of the goals for \eclector{}
 was to achieve \emph{acceptable} performance.
 
-\subsection{Benchmarks}
+\subsection{General Benchmarks}
 \label{sec:benchmarks}
 
-We measured the time it took the native readers of different \cl{}
-implementations as well as extrinsic \eclector{} in those same
-implementation to read the contents of \cl{} files taken from
+As a rough indication of the \eclector{}'s efficiency when reading
+\cl{} code, we measured the time it took the native readers of
+different \cl{} implementations as well as extrinsic \eclector{} and
+\eclector{} configured to produce parse results in those same
+implementations to read the contents of \cl{} files taken from
 real-world open source libraries.  Code similar to the following was
 used to perform the benchmarking:
 
@@ -70,6 +72,45 @@ Observations
 \item Data inputs \texttt{enc-cn-tbl.lisp} two orders of magnitude,
   Code inputs \texttt{screamer.lisp} one order of magnitude
 \end{itemize}
+
+\subsection{Pathological inputs}
+
+\todo{Another thing we could talk about are edge cases of labeled objects
+and references.  Not because the performance of those is particularly
+relevant in practice but because there is algorithmic innovation in
+\eclector{} in this area and we even have an edge over \sbcl{} for
+certain cases.}
+
+As a second indication of performance characteristics, we chosen two
+pathological inputs, namely
+\texttt{\#1=(\#2=(\#3= \dots \#$N$\#=(\#1\# \#2\# \#3\# \dots \#$N$\#)))}
+which we call ``input 1 of size $N$'' and
+\texttt{\#1=(\#2=(\#3= \dots \#$N$=(1 2 3 \#$N$\#) \dots \#3\#) \#2\#) \#1\#)}
+which we call ``input 2 of size $N$''.  The benchmark consists in
+reading the two inputs for different sizes $N$ with \sbcl{}'s reader
+and with \eclector{} and measuring the respective runtimes.
+Figure~\ref{fig:runtimes-pathological} shows the runtimes for the
+different cases.  For \sbcl{}, the runtime is quadratic in the size
+$N$ of the input for both input shapes.  For \eclector{}, the runtime
+is linear in the size of the inputs.
+
+The reason for the difference is that \sbcl{} performs the fixup
+operation immediately on the return value of each finished
+\texttt{read} call.  Since each result contains the previous results,
+this strategy leads to an amount of work proportional to
+$\sum_{1 \le i \le N} i \propto N^2$.  \eclector{}, on the other hand,
+delays the fixup operation until the outermost \texttt{read} call
+returns which leads to an amount of work proportional to just $N$.
+
+\begin{figure}
+\centering
+\includegraphics[width=\linewidth]{figures/fixup.pdf}
+\caption{Runtimes in seconds for \sbcl{}'s reader and \eclector{} on
+  the two input shapes and different input sizes.  Both axes are
+  log-scaled.  Linear and quadratic relations with suitable constant
+  factors have been added for reference.}
+\label{fig:runtimes-pathological}
+\end{figure}
 
 %%% Local Variables:
 %%% mode: LaTeX

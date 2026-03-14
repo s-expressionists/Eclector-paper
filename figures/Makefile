@@ -1,6 +1,9 @@
 .PHONY: all
 
-all: labeled-object-states.pdf labeled-object-api-states.pdf
+all: fixup.pdf labeled-object-states.pdf labeled-object-api-states.pdf
+
+fixup.pdf: fixup.gplt ../benchmark/fixup.txt
+	gnuplot fixup.gplt
 
 labeled-object-%.pdf: labeled-object-%.svg
 	rsvg-convert -o $@ $<

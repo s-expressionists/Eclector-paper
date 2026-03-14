@@ -1,0 +1,31 @@
+set terminal pdf font 'Verdana,10'
+set output "fixup.pdf"
+
+# http://www.gnuplotting.org/tag/colormap/
+set style line 1 lt 1 lc rgb '#0072bd' # blue
+set style line 2 lt 1 lc rgb '#d95319' # orange
+set style line 3 lt 1 lc rgb '#edb120' # yellow
+set style line 4 lt 1 lc rgb '#7e2f8e' # purple
+set style line 5 lt 1 lc rgb '#77ac30' # green
+set style line 6 lt 1 lc rgb '#4dbeee' # light-blue
+set style line 7 lt 1 lc rgb '#a2142f' # red
+
+# http://www.gnuplotting.org/ease-your-plotting-with-config-snippets/
+set grid
+set border 0
+
+set logscale x 2
+set xlabel "Input size"
+
+set logscale y
+set ylabel "Runtime [s]"
+
+set key autotitle columnhead
+set key outside above
+
+plot "../benchmark/fixup.txt" using 1:2 with points lw 1.5        title "SBCL, input 1",     \
+     ""                       using 1:3 with points lw 1.5        title "SBCL, input 2",     \
+     ""                       using 1:4 with points lw 1.5        title "Eclector, input 1", \
+     ""                       using 1:5 with points lw 1.5        title "Eclector, input 2", \
+     0.0000002*x**2                                 lw 1.5 dt "-" title "c_1 x^2",           \
+     0.000005*x                                     lw 1.5 dt "-" title "c_2 x"
