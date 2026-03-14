@@ -147,8 +147,8 @@ consists of adding an additional parameter, usually called
 list, to generic functions that should be customizable.  The library
 is structured such that a client (user) of the library can easily
 arrange for the relevant generic functions to be called with a
-particular value for the \texttt{client} parameter.  This allows
-clients to define methods specialized to the class of the
+particular value for the \texttt{client} parameter.  This organization
+allows clients to define methods specialized to the class of the
 client-supplied value on the customizable generic functions and have
 those methods be the most specific and thus in charge of the behavior
 of the respective generic function.  \eclector{} provides a special
@@ -236,8 +236,9 @@ functions like \texttt{state-value}, \texttt{(setf state-value)} and
 \texttt{call-with-state-value} that are called by \eclector{} and
 client code to query or modify the aspects of the reader state.  Each
 of these generic functions will have an aspect as one of its
-arguments.  These functions also have a \emph{client} parameter that
-can be used by client code to create specific methods.
+arguments.  These functions also have a \texttt{client} parameter that
+can be used by client code to create specific methods as explained in
+\refSec{sec:client-parameter}.
 
 \subsubsection{Labeled Objects}
 \label{sec:labeled-objects}
@@ -349,14 +350,6 @@ and described the paper presented at ELS'18
 \cite{durand:hal-01887230}.  Furthermore, it would be impossible to
 use a native reader for this use case since many of the configurations
 that \eclector{} allows are absolutely necessary.
-
-We could do a few benchmarks
-
-Another thing we could talk about are edge cases of labeled objects
-and references.  Not because the performance of those is particularly
-relevant in practice but because there is algorithmic innovation in
-\eclector{} in this area and we even have an edge over \sbcl{} for
-certain cases.
 
 % LocalWords:  uninterned readtable readtables customizable
 

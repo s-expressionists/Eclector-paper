@@ -22,21 +22,21 @@ host global environment must not be affected as a result of reading
 these forms, we take full advantage of the ability to configure
 \eclector{} to avoid such side effects.
 
-\subsubsection{Alternate syntax beyond readtable and reader macros}
-
-https://github.com/pve1/eclector-access/
-
-Coalton language: https://github.com/coalton-lang/coalton/blob/main/src/parser/reader.lisp
-
-maybe Hayley's language
+% \subsubsection{Alternate syntax beyond readtable and reader macros}
+%
+% https://github.com/pve1/eclector-access/
+%
+% Coalton language: https://github.com/coalton-lang/coalton/blob/main/src/parser/reader.lisp
+%
+% maybe Hayley's language
 
 \subsubsection{Reader part of sandboxed evaluation}
 
 The goal of \emph{sandboxed evaluation} is to (read and) evaluate untrusted code, for
 example code received from possibly adversarial third parties, in way
 that makes it impossible to affect the surrounding environment
-except in limited, explicitly permitted ways.  examples: errors leading to denial of service, read-time eval, interning,
-consuming resources such as stack space, heap space, processing
+except in limited, explicitly permitted ways.  \todo{examples: errors leading to denial of service, read-time eval, interning,
+consuming resources such as stack space, heap space, processing}
 
 \subsubsection{Static Analysis}
 
@@ -49,15 +49,15 @@ violations of conventional style and suggestions for improving the
 readability of the code.  Other examples include
 
 \begin{itemize}
-\item spelling mistakes in comments or symbol names
+\item spelling mistakes in comments or symbol names,
 \item unnecessary package prefix in case the symbol in question is
   accessible in the current package or a package-local nickname allows
-  a shorter spelling.
-\item use of two-package markers when spelling an external symbol
+  a shorter spelling,
+\item use of two-package markers when spelling an external symbol,
 \item use of the wrong number of semicolons for a comment at a given
-  level (for example two semicolons for a comment at the toplevel)
+  level (for example two semicolons for a comment at the toplevel),
 \item logical errors in reader conditionals such as
-  \texttt{\#+win32(\dots{} \#+(and thread (not win32))(\dots{}) \dots{})}
+  \texttt{\#+win32(\dots{} \#+(and thread (not win32))(\dots{}) \dots{})}.
 \end{itemize}
 
 Such tools should preferably not have any side effects on the host
