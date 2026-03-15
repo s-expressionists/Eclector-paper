@@ -16,13 +16,26 @@ For the behavior reported here as well as for the benchmarks described
 in \refSec{sec-performance}, the following implementations and
 versions were used:
 
-\noindent%
+\vspace{1em}\noindent%
 \begin{tabular}{ll}
   \textbf{Implementation}          & \textbf{Version}\\
   Embeddable Common Lisp (\ecl{})  & ECL 24.5.10\\
   Steel-Bank Common Lisp (\sbcl{}) & 2.6.0.debian\\
   Clozure Common Lisp (\ccl{})     & 1.13 (v1.13-21-gda7138ef) LinuxX8664
 \end{tabular}
+\vspace{1em}
+
+Like \cl{}, the \scheme{} programming language employs a reader for
+turning textual source code into S-expressions.  However, unlike
+\cl{}, modern versions of \scheme{} include the concept of
+\emph{syntax objects} which are \scheme{} datums annotated with
+additional information such as scope information for identifiers or
+source information for forms read from files.  While some of the
+challenges presented here can be addressed with syntax objects, they
+require a particular interface for the reader and, more importantly, a
+different mechanism for macros than \cl provides.  Because of those
+differences, we consider \scheme{} and syntax objects out of scope for
+the following comparison.
 
 \subsection{Embeddable Common Lisp (\ecl{})}
 
@@ -167,28 +180,6 @@ There are plans to modify the bootstrapping procedure of Clasp so that
 the initial \cplusplus{} reader is no longer needed.  For all these
 reasons, we do not review the \cplusplus{} reader of Clasp, and
 Eclector is fully described in \refSec{sec-eclector}.
-
-%% \subsection{Scheme}
-
-%% Many implementations of the \scheme{} language support the concept of
-%% \emph{syntax objects} which are \scheme{} datums annotated with
-%% additional information such as scope information for identifiers or
-%% source information for forms read from files.  While the original
-%% motivation for syntax objects seems to have been hygienic macros,
-%% attaching source information to all datums\footnote{not just lists,
-%%   vectors, etc.} is clearly useful as well.
-
-
-%% See for instance \texttt{read-syntax} in the Guile manual.%
-%% \footnote{https://www.gnu.org/software/guile/manual/html\_node/Annotated-Scheme-Read.html}
-
-%% As far as we can tell, syntax objects allow and actually are used for
-%% reading \emph{forms} with source information but don't seem to support
-%% producing parse results for \emph{skipped material} like comments.
-
-%% \todo{verify?}
-%% Possible Limitation: When trying to read something circular in Racket it says
-%% \texttt{read-syntax: `\#...\#` forms not enabled for `read-syntax`}
 
 %%% Local Variables:
 %%% mode: LaTeX
