@@ -35,8 +35,7 @@ broader in scope:
   material} \seesec{sec:source-information}.
 \item \eclector{} should achieve acceptable performance in general and
   non-catastrophic performance degradation for pathological inputs
-  where possible
-  \todo{reference a section that talks about this in detail?}
+  where possible \seesec{sec-performance}.
 \item \eclector{} should be robust against unusual inputs such as data
   serialized as S-expressions.  More concretely, deeply nested or
   circular expressions should not cause \eclector{} to exhaust the
@@ -53,9 +52,10 @@ around $5.000$ lines of test code.  The test suite achieves almost
 full line- and branch-coverage of the codebase and applies random
 testing techniques for certain aspects of the implementation.
 
-\todo{what to list here?} The following sections discuss features
-provided by \eclector{} (\refSec{sec:features}), protocols for
-customizing \eclector{} (\refSec{sec:protocols}) and \todo{...}.
+The following sections discuss features that distinguish \eclector{}
+from other \cl{} readers (\refSec{sec:features}) and describe some of
+the protocols for \eclector{} provides for customization
+(\refSec{sec:protocols}).
 
 \subsection{Features}
 \label{sec:features}
@@ -127,11 +127,11 @@ for configuring it.
 \label{sec:protocols}
 
 The possibilities for customization that \eclector{} provides are
-implemented in the form of a number of protocols.  This section
+realized in the form of a number of protocols.  This section
 presents some of the noteworthy protocols\footnote{A complete
   description of the protocols \eclector{} provides for customization
   can be found in the
-  \href{https://s-expressionists.github.io/Eclector/eclector.html\#External-protocols}{External protocols}
+  \href{https://s-expressionists.github.io/Eclector/eclector.html\#External-protocols}{``External protocols''}
   section of the manual.}.
 
 \subsubsection{The client parameter design pattern}
