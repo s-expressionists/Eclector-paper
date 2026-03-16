@@ -30,17 +30,25 @@ these forms, we take full advantage of the ability to configure
 %
 % maybe Hayley's language
 
-\subsubsection{Reader part of sandboxed evaluation}
+\subsubsection{Sandboxed evaluation}
 
-The goal of \emph{sandboxed evaluation} is to (read and) evaluate untrusted code, for
-example code received from possibly adversarial third parties, in way
-that makes it impossible to affect the surrounding environment
-except in limited, explicitly permitted ways.  \todo{examples: errors leading to denial of service, read-time eval, interning,
-consuming resources such as stack space, heap space, processing}
-
-nesting depth of \texttt{read} calls
-
-\texttt{*read-eval*}
+The goal of \emph{sandboxed evaluation} is to (read and) evaluate
+untrusted code, for example code received from possibly adversarial
+third parties, in a way that makes it impossible to affect the
+surrounding environment except in limited, explicitly permitted ways.
+If a standard \cl{} reader was used in the \texttt{read} phase of
+sandboxed evaluation, certain potentially dangerous behaviors could be
+restricted, for example via \texttt{*read-eval*}.  However, malicious
+parties could still exploit the unmodifable behavior of a standard
+reader to impair the system: \texttt{read} can cause interning of
+symbols which permanently occupy memory so that the system could run
+out of memory.  Certain literals such as
+\mintinline{lisp}{#100000000000000A()} could be used to exhaust system
+memory.  Deeply nested expressions could cause the system to signal an
+error that may be hard to recover from or such expressions could
+simply crash the system.  A configurable reader can configured such
+that these potentially dangerous default behaviors are restricted or
+prohibited.
 
 \subsubsection{Safe data serialization}
 \label{sec:serialization}
@@ -52,19 +60,18 @@ concrete example, the Lichat communication
 protocol\footnote{\url{https://shirakumo.github.io/lichat/lichat.html}}
 uses S-expressions as its wire-format.  Such a format seems ideal for
 processing with the \cl{} printing and reading facilities but as for
-sandboxed evaluation, the standard \cl{} reader cannot but configured
-such it is safe to apply to untrusted input.
+sandboxed evaluation, the standard \cl{} reader cannot be configured
+such that it is safe to apply to untrusted input.
 
-Another data serialization and deserialization is the fact that the
-S-expression structure of serialized data can be very different from
-typical code.  For example, typical code contains few instances the
-reader macros for labeled objects which encode circularity and
-repeated occurrences of expressions.  Serialized data on the other
-hand may be highly circular and contain many expressions which occur
-repeatedly.
-
-\todo{additional requirement: unusual structure such as massive circularity; relation to performance
-see performance}
+One important aspect of data serialization and deserialization is the
+fact that the S-expression structure of serialized data can be very
+different from typical code.  For example, typical code contains few
+instances the reader macros for labeled objects which encode
+circularity and repeated occurrences of expressions.  Serialized data
+on the other hand may be highly circular and contain many expressions
+which occur repeatedly.  See \refSec{sec:pathological-inputs} for a
+brief discussion of the potential performance impact of such unusual
+inputs.
 
 \subsubsection{Static Analysis}
 
