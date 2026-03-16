@@ -58,7 +58,7 @@ processing of untrusted \emph{data} can be a concern, for example data
 is serialized in S-expression form and later deserialized.  As a
 concrete example, the Lichat communication
 protocol\footnote{\url{https://shirakumo.github.io/lichat/lichat.html}}
-uses S-expressions as its wire-format.  Such a format seems ideal for
+uses S-expressions as its wire-format.  \todo{mention gsharp?}  Such a format seems ideal for
 processing with the \cl{} printing and reading facilities but as for
 sandboxed evaluation, the standard \cl{} reader cannot be configured
 such that it is safe to apply to untrusted input.
