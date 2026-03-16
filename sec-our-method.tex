@@ -35,12 +35,12 @@ broader in scope:
   material} \seesec{sec:source-information}.
 \item \eclector{} should achieve acceptable performance in general and
   non-catastrophic performance degradation for pathological inputs
-  where possible \seesec{sec-performance}.
+  where possible \seesec{sec:benchmarks}.
 \item \eclector{} should be robust against unusual inputs such as data
   serialized as S-expressions.  More concretely, deeply nested or
-  circular expressions should not cause \eclector{} to exhaust the
-  available stack space.
-  \todo{should we instead talk about the depth of nested function calls to avoid the implementation detail?}
+  circular expressions should not cause \eclector{} to consume
+  quadratic or exponential time (in relation to the input size) or
+  exhaust the available stack space \seesec{sec:pathological-inputs}.
 \end{enumerate}
 
 After about a decade of slow-paced development in total, \eclector{}
