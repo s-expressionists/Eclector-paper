@@ -114,23 +114,15 @@ An important feature of a reader to be used with such a tool is the
 desire to recover from errors such as syntax errors in tokens.  The
 tool would then report the error and then continue the analysis.
 
-In some cases ``invisible'' objects such as feature conditionals,
-labeled objects and skipped material like comments when those things
-are the subject of the analysis.
+In some cases, ``invisible'' objects such as feature conditionals,
+labeled objects and skipped material like comments have to be retained
+and represented explicitly when those things are the subject of the
+analysis.
 
-Important features for static analysis
-
-\begin{itemize}
-\item No side effects (Interning, package system changes, code evaluation)
-\item Error recovery
-\end{itemize}
-
-Limitations
-
-\begin{itemize}
-\item Reader macros
-\item Read-time evaluation
-\end{itemize}
+Some features of the \cl{} reader like reader macro and read-time
+evaluation remain challenging in the context of this use case, even
+for a highly configurable reader implementation with error recovery
+and source tracking.
 
 \subsubsection{Syntax highlighting}
 
