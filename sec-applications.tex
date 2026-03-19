@@ -126,17 +126,18 @@ and source tracking.
 
 \subsubsection{Syntax highlighting}
 
+Coloring or otherwise classifying elements of \cl{} source code
+according to different syntactic or semantic criteria can be useful
+for applications such as editors, documentation preparation systems
+and browsers for code repositories.  As mentioned before, the only
+practical way of evaluating such criteria is to parse the code using
+\mintinline{lisp}{cl:read} but typical \cl{} readers are unsuitable.
+However, \eclector{}'s ability to read incomplete, incorrect and
+untrusted code while avoiding side effects on the Lisp environment,
+tracking source locations, and retaining material like comments that
+would be otherwise be skipped, makes it suitable for this use case.
+
 \todo{Screenshot}
-
-For documentation
-
-Important features
-
-\begin{itemize}
-\item No side effects (Interning, package system changes, code evaluation)
-\item Parse results, skipped material, ``invisible'' objects
-\item Error recovery
-\end{itemize}
 
 \subsubsection{Incremental parsing for editor-like applications}
 \label{sec:incremental-parsing}
