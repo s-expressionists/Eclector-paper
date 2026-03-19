@@ -315,9 +315,9 @@ and vectors, the nesting depths of expression, the frequency of
 circular structure and the overall size of the input can be vastly
 different from source code.
 
-to account for this requirement, \eclector{} is designed to avoid
+To account for this requirement, \eclector{} is designed to avoid
 unbounded recursion where possible.  Instead, functions that could
-cause unbounded recursion of expressed with naive recursion initially
+cause unbounded recursion if expressed with naive recursion, initially
 process the input recursively but track the recursion depth and employ
 iteration and a worklist in case the recursion depth exceeds a
 threshold.  However, not all recursion in \eclector{} is handled using
