@@ -44,7 +44,7 @@ reader to impair the system: \texttt{read} can cause interning of
 symbols which permanently occupy memory so that the system could run
 out of memory.  Certain literals such as
 \mintinline{lisp}{#100000000000000A()} could be used to exhaust system
-memory.  Deeply nested expressions could cause the system to signal an
+memory.  \todo{bad example? this one can be fixed using readtables} Deeply nested expressions could cause the system to signal an
 error that may be hard to recover from or such expressions could
 simply crash the system.  A configurable reader can be configured such
 that these potentially dangerous default behaviors are restricted or
