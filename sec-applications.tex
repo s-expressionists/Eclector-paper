@@ -167,7 +167,7 @@ library takes a collection of files and a regular expression as
 arguments.  It then uses \eclector{} to parse each file.  It defines a
 method on the \eclector{} generic function \texttt{interpret-symbol}
 that uses the regular expression on the token representing a symbol
-that \eclector{} recognizes to determine whether there is a match.  If
+that \eclector{} recognizes, to determine whether there is a match.  If
 so, it accumulates the token in a list of matches that is ultimately
 returned.  For reader conditionals, \texttt{formgrep} configures
 \eclector{} to always read the guarded expression regardless of the
