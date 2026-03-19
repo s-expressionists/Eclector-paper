@@ -89,7 +89,7 @@ which we call ``input 1 of size $N$'' and
 \texttt{\#1=(\#2=(\#3= \dots \#$N$=(1 2 3 \#$N$\#) \dots \#3\#) \#2\#) \#1\#)}
 which we call ``input 2 of size $N$''.  The benchmark consists of
 reading the two inputs for different sizes $N$ with \sbcl{}'s reader
-and with \eclector{} and measuring the respective runtimes.
+and with \eclector{}, and measuring the respective runtimes.
 Figure~\ref{fig:runtimes-pathological} shows the runtimes for the
 different cases.  For \sbcl{}, the runtime is quadratic in the size
 $N$ of the input for both input shapes.  For \eclector{}, the runtime
