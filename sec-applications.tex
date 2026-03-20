@@ -96,13 +96,8 @@ readability of the code.  Other examples include
 \end{itemize}
 
 Such tools should preferably not have any side effects on the host
-\cl{} image such as:
-
-\begin{itemize}
-\item interning symbols in some host package,
-\item altering the package system, or
-\item evaluating code.
-\end{itemize}
+\cl{} image such as: interning symbols in some host package, altering
+the package system, or evaluating code.
 
 The host reader can then not be used because of the possibility of
 read-time evaluation, or simply the use of double package markers for
