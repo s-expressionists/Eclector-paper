@@ -3,14 +3,14 @@
 In this section, we give an overview of the native readers of some
 common free or open-source existing \cl{} implementations.  We focus
 on behavior in error situations and features like tracking of source
-positions that can be essential in various use cases, including cases
-where the reader is not used as the first phase of a
+positions that can be essential in various use cases, particularly
+cases where the reader is not used as the first phase of a
 \texttt{read-eval-print} loop such as processing the contents of
 editor buffers as illustrated in Listing~\ref{lis:bad-program}.  We
 list the responses to invalid inputs not as a remark on the quality of
 the respective implementation but instead to evaluate whether those
 native readers could be used to read (a heuristic approximation of)
-invalid inputs as is required in certain use-cases.
+invalid inputs as is required in certain use cases.
 
 For the behavior reported here as well as for the benchmarks described
 in \refSec{sec-performance}, the following implementations and
@@ -34,32 +34,32 @@ additional information such as scope information for identifiers or
 source information for forms read from files.  While some of the
 challenges presented here can be addressed with syntax objects, they
 require a particular interface for the reader and, more importantly, a
-different mechanism for macros than \cl provides.  Because of those
+different mechanism for macros than \cl{} provides.  Because of those
 differences, we consider \scheme{} and syntax objects out of scope for
-the following comparison.
+the following short survey.
 
 \subsection{Embeddable Common Lisp (\ecl{})}
 
-\ecl{} is implemented as a core written in \clanguage{}.  It is built by
-first compiling this core and then adding code written in \cl{} by
-loading it into the system resulting from the compilation of the core.
-For that reason, the reader must be written largely in \clanguage{}.
+\ecl{} is implemented as a core written in \clanguage{}.  It is built
+by first compiling this core and then loading \cl{} code into the
+system created form the core.  For that reason, the reader must be
+written largely in \clanguage{}.
 
 When an attempt is made to read an incomplete expression, so that the
-\texttt{end-of-file} condition is signaled, no restart other than
-\texttt{restart-toplevel} is available.
-
-Similarly when an attempt is made to read a symbol with an explicit
-package marker where the corresponding package does not exist, an
-error of type \texttt{simple-error} is signaled, and again, the only
-restart available is \texttt{restart-toplevel}.
-
-When an attempt is made to read an incorrect token in the form of a
-malformed symbol with three package markers, again an error of type
-\texttt{simple-error} is signaled, and the message is cryptic.  For
-example, an attempt to read the malformed symbol \texttt{cl:::car},
-results in the error message ``There is no package with the name
-\texttt{CL:::C}''.
+\texttt{end-of-file} condition is signaled, only the restart
+\texttt{restart-toplevel} is available.  Similarly when an attempt is
+made to read a symbol with an explicit package marker where the
+corresponding package does not exist, an error of type
+\texttt{simple-error} is signaled, and only the restart
+\texttt{restart-toplevel} is available.  When an attempt is made to
+read an incorrect token in the form of a malformed symbol with three
+package markers, an error of type \texttt{simple-error} is signaled,
+and the message is cryptic.  For example, an attempt to read the
+malformed symbol \texttt{cl:::car}, results in the error message
+``There is no package with the name \texttt{CL:::C}''.%
+\footnote{We will call these three invalid inputs ``\emph{incomplete}
+  input'', ``\emph{missing package} input'' and ``\emph{triple colon}
+  input'' respectively in the following sections.}
 
 One might think that the reason \ecl{} proposes so few restarts is
 because it might be difficult to do so for a function written in
@@ -73,23 +73,18 @@ reader need not be handled.
 
 \subsection{Steel-Bank Common Lisp (\sbcl{})}
 
-The \sbcl{} reader is written in \cl{}, without the use of the specific
-features of the \cl{} Object System (\clos{}) such as generic
-functions and standard classes.
+The \sbcl{} reader is written in highly optimized \cl{}, with
+strategies like sophisticated management of buffers, elision of
+type-checks and bounds-checks, and without the use of the specific
+features of the \cl{} Object System (\clos{}) such as standard classes
+and generic functions (which are relatively slow compared to ordinary
+functions in \sbcl{}).
 
-The code is highly optimized.  Avoiding generic functions (which are
-relatively slow compared to ordinary functions in \sbcl{}) is part of
-this optimization.  Also, disabling bounds checks when it is known
-that an array index is valid makes the code faster.
-
-When an attempt is made to read an incomplete expression, so that the
-\texttt{end-of-file} condition is signaled, no restart other than
-\texttt{retry} and \texttt{abort} is available.
-
-When an attempt is made to read a symbol with an explicit package
-marker where the corresponding package does not exist, an error of
-type \texttt{simple-reader-package-error} is signaled.  Several
-restarts are then available:
+For the \emph{incomplete} input, the \texttt{end-of-file} condition is
+signaled and no restart other than \texttt{retry} and \texttt{abort}
+is available.  For the \emph{missing package} input, an error of type
+\texttt{simple-reader-package-error} is signaled.  Several restarts
+are then available:
 
 \begin{itemize}
 \item using the current package instead,
@@ -101,22 +96,18 @@ restarts are then available:
 \end{itemize}
 
 \noindent
-When an attempt is made to read an incorrect token in the form of a
-malformed symbol with three package markers, an error of type
-\texttt{simple-reader-error} is signaled, and no restart other than
+For the \emph{triple colon} input, an error of type
+\texttt{simple-reader-error} is signaled and no restart other than
 \texttt{retry} and \texttt{abort} is available.
 
 The \sbcl{} reader provides several extensions.  One such extension is
 that a package prefix with two colon characters can precede any
 expression, and not just a symbol.  The effect is that the reader then
 uses the package named by the prefix as the default package to intern
-symbols in the expression.
-
-Another extension is that the exponent marker \texttt{r} or \texttt{R}
-can be used to return a rational number that is the exact value of the
-floating-point syntax used.
-
-The names of symbols created by the \sbcl{} reader can be normalized
+symbols in the expression.  Another extension is that the exponent
+marker \texttt{r} or \texttt{R} can be used to return a rational
+number that is the exact value of the floating-point syntax used.  The
+names of symbols created by the \sbcl{} reader can be normalized
 according the ``Normalization Form KC'' which is specified for
 Unicode.  Whether symbol names are normalized in this way is
 controlled by the accessor \texttt{readtable-normalization} which
@@ -132,16 +123,12 @@ this purpose.
 \subsection{Clozure Common Lisp (\ccl{})}
 
 The \ccl{} reader is written in \cl{}, without the use of the specific
-features of the \cl{} Object System (\clos{}) such as generic
-functions and standard classes.
+\clos{} features such as generic functions and standard classes.
 
-When an attempt is made to read an incomplete expression, so that the
-\texttt{end-of-file} condition is signaled, only restarts that return
-to previous break levels are available.
-
-When an attempt is made to read a symbol with an explicit package
-marker where the corresponding package does not exist, several
-additional restarts are available:
+For the \emph{incomplete} input, the \texttt{end-of-file} condition is
+signaled and only restarts that return to previous break levels are
+available.  For the \emph{missing package} input, several additional
+restarts are available:
 
 \begin{itemize}
 \item supplying a different name for the package,
@@ -152,10 +139,9 @@ additional restarts are available:
 \end{itemize}
 
 \noindent
-When an attempt is made to read an incorrect token in the form of a
-malformed symbol with three package markers, no error is signaled at
-all, and instead the third package marker is treated as escaped, so
-that it is part of the symbol.
+For the \emph{triple colon} input, no error is signaled at all, and
+instead the third package marker is treated as escaped, so that it is
+part of the symbol.
 
 The \ccl{} reader can track source positions.  It registers the stream
 position before and after an expression has been read, and creates an
@@ -169,18 +155,16 @@ is called for the purpose of evaluating the resulting expression.
 
 Clasp is a \cl{} implementation that was specifically designed to
 interoperate with \cplusplus{} code, in order to take advantage of
-existing libraries written in \cplusplus{}.  Clasp was originally
-written as a conversion of the \clanguage{} code of \ecl{} to
-\cplusplus{} and with almost all the \cl{} code coming from \ecl{}.
-As such, its reader is a \cplusplus{} conversion of the reader from
-\ecl{}.  However, in later bootstrapping stages, Clasp uses Eclector,
-the subject of this paper, in order to make Eclector the default
+existing \cplusplus{} libraries.  Clasp was originally based on \ecl{}
+with significant changes for \cplusplus{} interoperability.  As such,
+its reader was initially a \cplusplus{} conversion of the \ecl{}
+reader.  However, in later bootstrapping stages, Clasp loads
+\eclector{}, the subject of this paper, and makes it the default
 reader.
 
 There are plans to modify the bootstrapping procedure of Clasp so that
-the initial \cplusplus{} reader is no longer needed.  For all these
-reasons, we do not review the \cplusplus{} reader of Clasp, and
-Eclector is fully described in \refSec{sec-eclector}.
+the initial \cplusplus{} reader is no longer needed.  For these
+reasons, we do not review the \cplusplus{} reader of Clasp.
 
 %%% Local Variables:
 %%% mode: LaTeX
