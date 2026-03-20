@@ -163,7 +163,7 @@ function.  Listing~\ref{lis:customization} shows a very simple example
 of this customization technique.
 
 \begin{listing}
-\begin{minted}[fontsize=\small,linenos]{lisp}
+\begin{minted}[fontsize=\small,linenos,escapeinside=||]{lisp}
 (defclass my-client () ())
 (defmethod eclector.reader:interpret-token
     ((client my-client) (stream t) (token t) (escape-ranges t))
@@ -171,7 +171,7 @@ of this customization technique.
     (if (typep result 'number) (- result) result)))
 (let ((eclector.base:*client* (make-instance 'my-client)))
   (eclector.reader:read-from-string "5"))
-=> -5, 1
+|$\Rightarrow$| -5, 1
 \end{minted}
 \caption{A simple customization that makes the reader negate any
   number tokens before returning them to the caller.}
@@ -289,7 +289,7 @@ produced by the reader before they are returned to the caller such
 that labeled object references%
 \footnote{This delayed substitution is required only in case of
   circular structure.  In cases like
-  \texttt{(\#1=:a \#1\#)}, the
+  \mintinline[escapeinside=||]{lisp}{(|\#|1=:a |\#|1|\#|)}, the
   referenced object can be substituted immediately.}  are replaced by
 the respective referenced object.  We refer to this process as
 \emph{fixup}.  \eclector{} uses a \emph{fixup graph} data structure to
