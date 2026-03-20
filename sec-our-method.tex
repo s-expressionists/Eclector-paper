@@ -243,16 +243,15 @@ can be used by client code to create specific methods as explained in
 \subsubsection{Labeled objects}
 \label{sec:labeled-objects}
 
-The \cl{} standard specifies the reader macros
-\texttt{\#N=expression} and
-\texttt{\#N\#} for defining and referencing
-labeled objects respectively.  We call $N$ the \emph{label}.  The
-\cl{} standard describes the processing of these labeled objects in
-terms of the observable results and some constraints.  \eclector{}
-implements this description by processing definitions and references
-for each label $N$ according to the state machine that is illustrated
-in Figure~\ref{fig:labeled-objects} and a corresponding protocol of
-first-class objects and operations (discussed below).
+The \cl{} standard specifies the reader macros \texttt{\#N=expression}
+and \texttt{\#N\#} for defining and referencing labeled objects
+respectively.  We call $N$ the \emph{label}.  The standard describes
+the processing of these labeled objects in terms of the observable
+results and some constraints.  \eclector{} implements this description
+by processing definitions and references for each label $N$ according
+to the state machine illustrated in Figure~\ref{fig:labeled-objects}
+and a corresponding protocol of first-class objects and operations
+(discussed below).
 
 \begin{figure*}
   \centering
@@ -262,27 +261,25 @@ first-class objects and operations (discussed below).
   \caption{Labeled object state machine.  The boxes with rounded edges
     depict the possible states of a label $N$.  A Lisp object
     associated with the label in a given state is shown in the lower
-    compartment.  The edges represent state transitions that occur
-    when input which resembles the label next to the edge is consumed.
-    Note that the edge labels show all input consumed so far for the
-    respective transition, not the new input compared to the origin
-    state.  The state machine for each label starts in the
+    compartment.  The state machine for each label starts in the
     \texttt{undefined} state before any input has been consumed and
     terminates at the end of input (since new references could appear
-    at any point until then). \emph{Left}: full set of states with
-    associated inputs. \emph{Right}: reduced set of states used in
-    protocol with corresponding protocol functions.}
+    at any point until then). \emph{Left}: Full set of states with
+    associated inputs. The edges represent state transitions that
+    occur when input which resembles the label next to the edge is
+    consumed.  Note that the edge labels show all input consumed so
+    far for the respective transition, not the new input compared to
+    the origin state.  \emph{Right}: Reduced set of states used in the
+    protocol with edges labeled by corresponding protocol functions.}
   \label{fig:labeled-objects}
 \end{figure*}
 
 Each label starts out as \emph{undefined} and potentially transitions
-to \emph{defined}, \emph{circular}, \emph{referenced} and
-\emph{final}.
-\todo{make sure those are all states, make sure we have selected the matching figure}
-Based on this state machine, \eclector{} provides a customizable
-protocol for processing labeled objects with generic functions like
-\texttt{note-labeled-object}, \texttt{forget-labeled-object},
-\texttt{reference-labeled-object}.
+to \emph{defined}, \emph{circular}, \emph{final} and
+\emph{referenced}.  Based on this state machine, \eclector{} provides
+a customizable protocol for processing labeled objects with generic
+functions like \texttt{note-labeled-object},
+\texttt{forget-labeled-object}, \texttt{reference-labeled-object}.
 
 The second part of handling labeled objects is processing the objects
 produced by the reader before they are returned to the caller such
@@ -293,16 +290,16 @@ that labeled object references%
   referenced object can be substituted immediately.}  are replaced by
 the respective referenced object.  We refer to this process as
 \emph{fixup}.  \eclector{} uses a \emph{fixup graph} data structure to
-manage the algorithmic complexity of pathological inputs \todo{should
-  reference some subsection of the performance section for a concrete
-  example?}  as well as another protocol to make the fixup processes
-extensible and customizable.  In particular, clients can add support
-for fixing up objects such as hash-tables that don't have a literal
-syntax in the standard, or implementation-specific objects.  The fixup
-protocol consists of generic functions for controlling the traversal
-of the fixup graph like \texttt{walk-fixup-tree} as well as functions
-for controlling the substitution in individual objects such as
-\texttt{fixup} and \texttt{new-value-for-fixup}.
+manage the algorithmic complexity of pathological inputs
+\seesec{sec:pathological-inputs} as well as another protocol to make
+the fixup processes extensible and customizable.  In particular,
+clients can add support for fixing up objects such as hash-tables that
+don't have a literal syntax in the standard, or
+implementation-specific objects.  The fixup protocol consists of
+generic functions for controlling the traversal of the fixup graph
+like \texttt{walk-fixup-tree} as well as functions for controlling the
+substitution in individual objects such as \texttt{fixup} and
+\texttt{new-value-for-fixup}.
 
 \subsection{Robustness and unusual inputs}
 
