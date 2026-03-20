@@ -15,6 +15,7 @@ the first author of this paper and the project goals became more
 clearly defined as well as broader in scope:
 
 \begin{enumerate}
+\item \eclector{} should be written in portable \cl{}.
 \item \eclector{} should provide a reader that strictly conforms to
   the \cl{} specification.
 \item \eclector{} should provide distinct condition types with precise
@@ -29,14 +30,11 @@ clearly defined as well as broader in scope:
 \item \eclector{} should provide source location tracking and parse
   result construction, including the representation of \emph{skipped
   material} \seesec{sec:source-information}.
-\item \eclector{} should achieve acceptable performance in general and
-  non-catastrophic performance degradation for pathological inputs
-  where possible \seesec{sec:benchmarks}.
-\item \eclector{} should be robust against unusual inputs such as data
-  serialized as S-expressions.  More concretely, deeply nested or
-  circular expressions should not cause \eclector{} to consume
-  quadratic or exponential time (in relation to the input size) or
-  exhaust the available stack space \seesec{sec:pathological-inputs}.
+\item \eclector{} should achieve acceptable performance in general
+  \seesec{sec:benchmarks} and non-catastrophic performance degradation
+  for unusual and pathological inputs such as deeply nested or highly
+  circular expressions where possible
+  \seesec{sec:pathological-inputs}.
 \end{enumerate}
 
 After about a decade of slow-paced development in total, \eclector{}
