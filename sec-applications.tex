@@ -154,11 +154,11 @@ the reader as a first class object, produce parse results for
 expressions as well as skipped material with source information and
 operate without side-effects enable incremental parsing.  Incremental
 parsing is useful in interactive, editor-like applications like REPLs,
-Listeners, IDEs, LSP\footnote{Language Server Protocol}-servers and of
-course source code editors.  For example, the incremental parsing
-technique first presented at ELS 2018\cite{durand:hal-01887230} has
-been extended to use \eclector{}.  One of the notable extensions
-consists in tracking of dependencies between expressions such as
+Listeners, IDEs, Language Server Protocol servers and of course source
+code editors.  For example, the incremental parsing technique first
+presented at ELS 2018\cite{durand:hal-01887230} has been extended to
+use \eclector{}.  One of the notable extensions consists in tracking
+of dependencies between expressions such as
 \mintinline{lisp}{(in-package ...)} and subsequent expressions that
 arise due to the effects on the reader state of the former expresion.
 
