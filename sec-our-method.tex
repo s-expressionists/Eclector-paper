@@ -195,11 +195,12 @@ of this customization technique.
   (let ((result (call-next-method)))
     (if (typep result 'number) (- result) result)))
 (let ((eclector.base:*client* (make-instance 'my-client)))
-  (eclector.reader:read-from-string "5"))
-|$\Rightarrow$| -5, 1
+  (eclector.reader:read-from-string "(5 #C(6 7))"))
+|$\Rightarrow$| (-5 #C(-6 -7)), 11
 \end{minted}
 \caption{A simple customization that makes the reader negate any
-  number tokens before returning them to the caller.}
+  number tokens (\texttt{\#C} is a reader macro, so only the parts are
+  affected) before returning them to the caller.}
 \label{lis:customization}
 \end{listing}
 
