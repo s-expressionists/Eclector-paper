@@ -1,45 +1,86 @@
-\section{Conclusions and future work}
+\section{Conclusions}
 
-\subsection{Limitations}
+\subsection{Challenges}
 
-\todo{write this}
-\begin{itemize}
-\item Slow development speed
-\item Breaking changes as customizability grows
-\item More customizability and sophisticated mechanism lead to
-  widening gap between ``aware'' and ``unaware'' user-code such as
-  reader macros
-\item User-written reader macros can be at odds with many of the goals
-  mentioned above (such as no effects, always being able to recover,
-  etc.)
-\item User-written (S-expression) macros can be at odds with source
-  tracking.  The concrete syntax tree library provides
-  \texttt{reconstruct} but that is approximate.  Other approaches
-  include CST-based or AST-based macros and Scheme-like syntax objects
-  but those approaches would be very disruptive for \cl{} users
-  (programmers).
-\end{itemize}
+As remarked at the end of \refSec{sec:benchmarks}, when executed in a
+given \cl{} implementation, \eclector{} tends to run 4 (\sbcl{}) to 10
+(\ccl{}) times slower than the respective native reader which is a
+significant slowdown.  We suspect that two major factors cause the
+difference in performance:
+\begin{enumerate}
+\item \eclector{}'s portable code cannot use implementation specific
+  optimizations that are available to native readers.
+\item The numerous possible ways in which \eclector{} can be
+  configured via generic functions slow down the execution, in
+  particular when the native reader does not use generic functions
+  because ordinary functions perform better in the implementation in
+  question.
+\end{enumerate}
+We believe that \eclector{}'s performance characteristics are still
+acceptable for most use cases: When a reader is used as part of file
+compilation or a \texttt{read-eval-print} loop, the time taken by the
+reader is usually dwarfed by the time taken by to compiler or
+evaluator.  Conversely, for interactive uses like parsing an editor
+buffer at typing speed, no reader with subsequent analysis steps will
+be fast enough to process an entire buffer, with arbitrarily sized
+contents, quickly enough.  In such a situation, \eclector{} can be
+used \emph{incrementally} as described in
+\refSec{sec:incremental-parsing} so that the amount of parsing work
+after each change is approximately constant.
+
+% TODO: explain this: raw performance may be not as good as other
+% readers but we try to avoid problems that stem from algorithms with
+% bad asymptotic complexity so that there are no pathological inputs.
+
+Another challenging area is forward and backward compatibility,
+particularly in two areas: customization possibilities provided to
+clients and reader macros.  For clients, in particular since
+\eclector{} already has some users, it is important to not introduce
+breaking changes in customization protocols.  On the other hand, when
+\eclector{}'s customization possibilities prove insufficient for some
+new use case, the protocols have to be changed or extended.  Reader
+macros, which are typically not aware of \eclector{} and its
+facilities, can be at odds with many of the goals mentioned above such
+as avoiding effects, always being able to recover, etc.  As a
+secondary issue, more customizability and more sophisticated
+mechanisms lead to a widening gap between reader macros that make use
+of \eclector{}'s facilities and fully portable reader macros.
+
+% User-written (S-expression) macros can be at odds with source
+% tracking.  The concrete syntax tree library provides
+% \texttt{reconstruct} but that is approximate.  Other approaches
+% include CST-based or AST-based macros and Scheme-like syntax objects
+% but those approaches would be very disruptive for \cl{} users
+% (programmers).
+
+% Slow development speed
 
 \subsection{Future work}
 
-\todo{write this properly}
-Ideas for future work:
+We are working on the following new customization protocols for
+\eclector{}:
 \begin{enumerate}
-\item The \cl{} reader associates with characters that occur within
-  symbols and numbers the concept of ``constituent traits''.  The
-  traits associated with each character are fixed and listed in the
-  \cl{} specification.  For \eclector, we plan to implement a ``traits
+\item The \cl{} reader associates \emph{constituent traits} with
+  characters that occur within symbols and numbers.  The traits
+  associated with each character are fixed and listed in the \cl{}
+  specification.  For \eclector, we plan to implement a ``traits
   table'' that allows clients to change the constituent traits
   associated with each character.
-
-\item We are working on a fully customizable and optimizing
-  quasiquotation processor for \eclector{}.  Customizable in this
-  context means, for example, that support for quasiquotation can be
-  added for new types of literals such as hash-table literals.
-  Optimizing means that the processor will turn quasiquoted material
-  into forms that can be evaluated efficiently.
-
-\item Literal construction protocol, Quaviver and float overflows
+\item We are working on a customizable and optimizing quasiquotation
+  processor for \eclector{}.  Customizable here means, for example,
+  that quasiquotation support can be added for new literals such as
+  hash-table literals.  Optimizing means that quasiquoted material
+  will be turned into forms that can be evaluated efficiently.
+\item We plan to generalize the protocol for literal construction
+  which currently consists of a few scattered functions like
+  \mintinline{lisp}{find-character},
+  \mintinline{lisp}{make-structure-instance} to a more general
+  signature like \mintinline{lisp}{make-literal} that would also
+  handle numbers, symbols, arrays and other literals.  This change
+  will also incorporate the Quaviver
+  library\footnote{\url{https://github.com/s-expressionists/Quaviver/}}
+  for building floating point number and better handling of float
+  overflows.
 
 \end{enumerate}
 
