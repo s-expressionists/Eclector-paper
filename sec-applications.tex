@@ -132,16 +132,16 @@ untrusted code while avoiding side effects on the Lisp environment,
 tracking source locations, and retaining material like comments that
 would be otherwise be skipped, makes it suitable for this use case.
 \refFig{fig:syntax-highlighting} shows \cl{} code with syntax
-highlighting based on \eclector{} parse results and further analysis
-of the S-expression syntax.
+highlighting in a CLIM-based application based on \eclector{} parse
+results and further analysis of the S-expression syntax.
 
 \begin{figure}
   \centering
-  \includegraphics[width=\linewidth]{figures/screenshot-syntax-highlighting.png}
+  \includegraphics[width=.8\linewidth]{figures/screenshot-syntax-highlighting.png}
   \caption{\cl{} code with syntax highlighting.  Color indicates
     namespaces: \texttt{dark-orange}: package, \texttt{blue}:
     function, \texttt{dark-red}: variable, \texttt{forest-green}:
-    type, \texttt{yellow4}, declaration, etc.  Bold text indicates
+    type, \texttt{yellow4}: declaration, etc.  Bold text indicates
     definitions.  Gray background indicates quoted material. }
   \label{fig:syntax-highlighting}
 \end{figure}
