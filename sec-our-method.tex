@@ -107,6 +107,30 @@ name of a non-existing package is used as a package prefix for a
 symbol, a restart can be invoked that returns an uninterned symbol
 instead.
 
+\subsubsection{Unusual inputs and robustness}
+
+While \eclector{} will likely be used for reading source code in most
+applications, the possibility of using \eclector{}
+\emph{intrinsically} requires it to handle any kind of input the user
+of a \cl{} implementation could apply \texttt{read} to.  As one
+example, for data serialized as S-expressions, the lengths of lists
+and vectors, the nesting depths of expression, the frequency of
+circular structure and the overall size of the input can be vastly
+different from source code.
+
+To account for this requirement, \eclector{} is designed to avoid
+unbounded recursion where possible.  Instead, functions that could
+cause unbounded recursion if expressed with naive recursion, initially
+process the input recursively but track the recursion depth and employ
+iteration and a worklist in case the recursion depth exceeds a
+threshold.  However, not all recursion in \eclector{} is handled using
+this approach at the moment.  In particular, \texttt{read} calls
+cannot nest to an arbitrary depth with the current design.  It may be
+possible to leverage the reader state protocol
+\seesec{sec:reader-state-protocol} to break up these nested calls into
+chunks manageable by recursive processing but we have not attempted
+this technique.
+
 \subsubsection{Intrinsic and extrinsic use}
 
 \eclector{} can be loaded into an existing \cl{} implementation
@@ -301,30 +325,6 @@ generic functions for controlling the traversal of the fixup graph
 like \texttt{walk-fixup-tree} as well as functions for controlling the
 substitution in individual objects such as \texttt{fixup} and
 \texttt{new-value-for-fixup}.
-
-\subsection{Robustness and unusual inputs}
-
-While \eclector{} will likely be used for reading source code in most
-applications, the possibility of using \eclector{}
-\emph{intrinsically} requires it to handle any kind of input the user
-of a \cl{} implementation could apply \texttt{read} to.  As one
-example, for data serialized as S-expressions, the lengths of lists
-and vectors, the nesting depths of expression, the frequency of
-circular structure and the overall size of the input can be vastly
-different from source code.
-
-To account for this requirement, \eclector{} is designed to avoid
-unbounded recursion where possible.  Instead, functions that could
-cause unbounded recursion if expressed with naive recursion, initially
-process the input recursively but track the recursion depth and employ
-iteration and a worklist in case the recursion depth exceeds a
-threshold.  However, not all recursion in \eclector{} is handled using
-this approach at the moment.  In particular, \texttt{read} calls
-cannot nest to an arbitrary depth with the current design.  It may be
-possible to leverage the reader state protocol
-\seesec{sec:reader-state-protocol} to break up these nested calls into
-chunks manageable by recursive processing but we have not attempted
-this technique.
 
 \subsection{Efficiency}
 
