@@ -216,11 +216,11 @@ skipping and preserving whitespace, interpretation of tokens,
 invocation of reader macros and more.  However, only a subset of these
 concepts and algorithmic aspects are reflected in the programming
 interface of the \cl{} reader, namely the functions \texttt{read},
-\texttt{read-from-string}, \texttt{read-preserving-whitespace} and
-\texttt{read-delimited-list}. \eclector{} tries to promote the
+\texttt{read-from-string}, \texttt{read-preserving-whitespace}, and
+\texttt{read-delimited-list}.  \eclector{} tries to promote the
 mentioned concepts and algorithmic aspects to first-class status by
 providing protocol functions such as \texttt{call-as-top-level-read},
-\texttt{read-common}, \texttt{read-maybe-nothing},
+\texttt{read-common}, \texttt{read-maybe-nothing}, and
 \texttt{interpret-token} as well as more specialized protocols, some of
 which will be discussed in subsequent sections.  As demonstrated in
 Listing~\ref{lis:customization}, these generic functions allow clients
