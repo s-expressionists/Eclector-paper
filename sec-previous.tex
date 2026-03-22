@@ -27,16 +27,11 @@ versions were used:
 \vspace{1em}
 
 Like \cl{}, the \scheme{} programming language employs a reader for
-turning textual source code into S-expressions.  However, unlike
-\cl{}, modern versions of \scheme{} include the concept of
-\emph{syntax objects} which are \scheme{} datums annotated with
-additional information such as scope information for identifiers or
-source information for forms read from files.  While some of the
-challenges presented here can be addressed with syntax objects, they
-require a particular interface for the reader and, more importantly, a
-different mechanism for macros than \cl{} provides.  Because of those
-differences, we consider \scheme{} and syntax objects out of scope for
-the following short survey.
+turning textual source code into S-expressions.  In modern versions of
+\scheme{}, \emph{syntax objects} are used to address some of the
+challenges we present here.  Other than this brief acknowledgment, we
+consider \scheme{} and syntax objects out of scope due to differences
+in design between \scheme{} and \cl{}.
 
 \subsection{Embeddable Common Lisp (\ecl{})}
 
