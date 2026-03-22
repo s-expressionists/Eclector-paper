@@ -10,8 +10,8 @@ different \cl{} implementations as well as extrinsic \eclector{} and
 \eclector{} configured to produce parse results in those same
 implementations to read the contents of \cl{} files taken from
 real-world open source libraries.  Code similar to the following was
-used to perform the benchmarking:
-
+used to perform the benchmarking:%
+%
 \begin{listing}[H]
 \begin{minted}[fontsize=\small,linenos]{lisp}
 (let ((content (alexandria:read-file-into-string filename)))
@@ -23,15 +23,11 @@ used to perform the benchmarking:
            until (eq form stream)))))
 \end{minted}
 \end{listing}
-
-where \texttt{<<read>>} is either
+%
+\vspace{-2em} \noindent where \texttt{<<read>>} is either
 \texttt{cl:read}, \texttt{eclector.reader:read} or
 \texttt{eclector.concrete-syntax-tree:read} depending on the
 benchmark.
-
-\todo{eclector version}
-\todo{describe hardware}
-\todo{more lisps?}
 
 We performed the benchmark described above for \sbcl{} and \ccl{} with
 default optimization settings\footnote{Unfortunately, results for ECL
@@ -41,16 +37,15 @@ default optimization settings\footnote{Unfortunately, results for ECL
   that prevents it form executing \eclector{}.  Building ECL from
   source failed due to issues with the default C compiler on the
   author's system.}.  We arbitrarily selected the following large
-\cl{} files as inputs for the benchmark runs:
+\cl{} files as inputs for the benchmark runs: from the library
+\texttt{flexi-streams-20241012-git} the file \texttt{enc-cn-tbl.lisp}
+with $48,418$ lines and from the library \text{screamer-20210807-git}
+the file \texttt{screamer.lisp} with $7,233$ lines.  With \eclector{}
+commit \texttt{b2b22cdf} we obtained the following results on an
+\texttt{Intel(R) Core(TM) i7-4610M CPU @ 3.00GHz} machine with 15 GB
+of memory:
 
-\begin{tabular}{llr}
-  \textbf{File}   & \textbf{Library}           & \textbf{Lines of Code}\\
-  enc-cn-tbl.lisp & flexi-streams \todo{version} & 48,418\\
-  screamer.lisp   & screamer \todo{version}      & 7,233
-\end{tabular}
-
-Results
-
+\vspace{1em}\noindent%
 \begin{tabular}{lrr}
   \textbf{Reader}         & \textbf{enc-cn-tbl.lisp} & \textbf{screamer.lisp}\\
   \sbcl{} native          & 0.034 s                  & 0.011 s\\
@@ -60,16 +55,15 @@ Results
   \ccl{} \eclector{}      & 1.249 s                  & 0.607 s\\
   \ccl{} \eclector{} CST  & 4.108 s                  & 0.961 s\\
 \end{tabular}
+\vspace{1em}
 
-Observations\todo{improve grammar}
-\begin{itemize}
-\item In a given \cl{} implementation, \eclector{} tends to run around
-  4 to 10 times slower than the respective native reader.
-\item for the chosen inputs, \sbcl{} runs \eclector{} around 7 to 10 times faster than \ccl{}
-\item \eclector{} on \sbcl{} is on par with \ccl{}
-\item Data inputs \texttt{enc-cn-tbl.lisp} two orders of magnitude,
-  Code inputs \texttt{screamer.lisp} one order of magnitude
-\end{itemize}
+\noindent We observe that, in a given \cl{} implementation, the
+respective native reader takes 8 \% to 20 \% of the time taken by
+\eclector{} to read the same input.  On the other hand, \eclector{} on
+\sbcl{} is about on par with the native reader of \ccl{}.  When
+producing parse results, \eclector{} takes significantly more time, so
+that the native readers read the same input in 5 \% to 11 \% of the
+time.
 
 \subsection{Pathological inputs}
 \label{sec:pathological-inputs}
