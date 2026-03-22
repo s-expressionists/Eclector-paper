@@ -255,9 +255,12 @@ the standard special variables: one aspect controls whether the
 consing dot is legal in the current state.  Another aspect tracks the
 quasiquotation nesting level.  User code can in principle add
 additional, custom aspects.  The intention of the reader state
-protocol is to allow representing the entire state of the reader as
-one or more first-class objects.
-\todo{talk more about how that helps with incremental parsing?}
+protocol is to represent the entire state of the reader as one or more
+first-class objects.  Such a first-class representation allows clients
+to capture and restore the state, for example in order to
+re-\texttt{read} certain parts of a longer input or to track
+dependencies between expressions.  Both capabilities are required for
+incremental parsing use cases \seesec{sec:incremental-parsing}.
 
 The reader state protocol consists of a small number of generic
 functions like \texttt{state-value}, \texttt{(setf state-value)} and
