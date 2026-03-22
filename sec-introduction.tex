@@ -28,8 +28,8 @@ be useful are:
   packages that may clash with some host packages.  With a highly
   configurable reader, cross compilation can be addressed in a
   different way.
-\item[Parsing an editor buffer] As a concrete example of this
-  use case, consider the (bad) \cl{} program in
+\item[Parsing an editor buffer] As a concrete example of this use
+  case, consider the (bad) \cl{} program in
   Listing~\ref{lis:bad-program} which a user might type into an editor
   or integrated development environment (IDE) for \cl{} code.  The IDE
   could support the user with accurate syntax
@@ -39,15 +39,15 @@ be useful are:
     package used for typesetting the listing gets this wrong.} and
   notify them about the syntactic errors\footnote{Examples of
     syntactic errors are three package markers in
-    \mintinline[escapeinside=||]{lisp}{cl:::nth}, a digit using an
-    invalid radix in \mintinline[escapeinside=||]{lisp}{|\#|b0102} and
-    a missing closing parenthesis at the end of the program.},
-  semantic errors\footnote{Only one branch of the nested read-time
-    conditional \mintinline[escapeinside=||]{lisp}{|\#|+sbcl |\#|b0102
-      |\#|-sbcl |\#|b0100} is reachable.}  and style
-  issues\footnote{Toplevel comments are specified to use three
-    semicolons.  Closing parentheses should not be placed on separate
-    lines.}.
+    \mintinline[escapeinside=||]{lisp}{cl:::nth}, a digit that is
+    invalid for the chosen radix in
+    \mintinline[escapeinside=||]{lisp}{|\#|b0102} and a missing
+    closing parenthesis at the end of the program.}, semantic
+  errors\footnote{Only one branch of the nested read-time conditional
+    \mintinline[escapeinside=||]{lisp}{|\#|+sbcl |\#|b0102 |\#|-sbcl
+      |\#|b0100} is reachable.}  and style issues\footnote{Toplevel
+    comments are specified to use three semicolons.  Closing
+    parentheses should not be placed on separate lines.}.
 
   Existing editors for \cl{} code do not provide these features to the
   full extent because they cannot analyze the buffer contents
