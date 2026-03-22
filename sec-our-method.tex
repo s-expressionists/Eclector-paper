@@ -301,11 +301,11 @@ and a corresponding protocol of first-class objects and operations
 \end{figure*}
 
 Each label starts out as \emph{undefined} and potentially transitions
-to \emph{defined}, \emph{circular}, \emph{final} and
-\emph{referenced}.  Based on this state machine, \eclector{} provides
-a customizable protocol for processing labeled objects with generic
-functions like \texttt{note-labeled-object},
-\texttt{forget-labeled-object}, \texttt{reference-labeled-object}.
+to \emph{defined}, \emph{circular}, \emph{final} or \emph{referenced}.
+Based on this state machine, \eclector{} provides a customizable
+protocol for processing labeled objects with generic functions like
+\texttt{note-labeled-object}, \texttt{forget-labeled-object},
+\texttt{reference-labeled-object}.
 
 The second part of handling labeled objects is processing the objects
 produced by the reader before they are returned to the caller such
