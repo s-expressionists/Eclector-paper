@@ -109,6 +109,23 @@ name of a non-existing package is used as a package prefix for a
 symbol, a restart can be invoked that returns an uninterned symbol
 instead.
 
+\subsubsection{Intrinsic and extrinsic use}
+
+\eclector{} can be loaded into an existing \cl{} implementation
+without affecting the native reader, or any other system-specific
+code.  It will then define several \eclector{}-specific packages that
+a client must refer to in order to use \eclector{}.  We call this way
+of using \eclector{} ``extrinsic''.
+
+But \eclector{} can also be used as the native reader of a new \cl{}
+implementation, or to replace the existing reader of an existing \cl{}
+implementation.  Its main functions will then be defined in the
+\texttt{common-lisp} package.  We call this way of using \eclector{}
+``intrinsic''.  Intrinsic use in a new \cl{} implementation will
+require some specific bootstrapping consideration, since
+\clos{} is used extensively both in the implementation of \eclector{}
+and for configuring it.
+
 \subsubsection{Unusual inputs and robustness}
 
 While \eclector{} will likely be used for reading source code in most
@@ -132,23 +149,6 @@ possible to leverage the reader state protocol
 \seesec{sec:reader-state-protocol} to break up these nested calls into
 chunks manageable by recursive processing but we have not attempted
 this technique.
-
-\subsubsection{Intrinsic and extrinsic use}
-
-\eclector{} can be loaded into an existing \cl{} implementation
-without affecting the native reader, or any other system-specific
-code.  It will then define several \eclector{}-specific packages that
-a client must refer to in order to use \eclector{}.  We call this way
-of using \eclector{} ``extrinsic''.
-
-But \eclector{} can also be used as the native reader of a new \cl{}
-implementation, or to replace the existing reader of an existing \cl{}
-implementation.  Its main functions will then be defined in the
-\texttt{common-lisp} package.  We call this way of using \eclector{}
-``intrinsic''.  Intrinsic use in a new \cl{} implementation will
-require some specific bootstrapping consideration, since
-\clos{} is used extensively both in the implementation of \eclector{}
-and for configuring it.
 
 \subsection{Protocols provided by \eclector{}}
 \label{sec:protocols}
